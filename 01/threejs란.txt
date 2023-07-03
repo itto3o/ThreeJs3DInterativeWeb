@@ -96,3 +96,84 @@ script안의 내용들을 모두 긁어서 새 파일(main.js)로 만든 후, �
 
 three.js에서도 모듈방식을 권장하는 중,
 모듈쪽 소스코드에는 구현이 되어있는데 구방법으로는 구현이 안 된 기능들이 몇개 있음
+
+----------------------------------------------------
+WebPack
+
+three.js를 사용하는 3번째 방법은 웹팩 이용
+웹팩이란?
+번들링 : .js, css, cjs, png 등을 하나하나의 모듈로 보고 이 모듈들을 배포용으로 병합하고 포장하는 작업
+번들러들 중에 웹팩이 가장 인기가 많음
+.js를 모듈들을 번들링하는 작업
+각각 처리하는 플러그인들이 따로 있어서 걔네들을 다 설치해줘야 했는데, 버전업이 되면서 기존에 됐던게 안되기도 하고 node.js의 버전에 따라 뭔가 수행이 달라져서 이런 일을 해결하는게 시간이 많이 걸려서
+--> 오류가 날 가능성을 줄이기 위해서 js를 위주로 번들링
+스크립트 위주로 처리하면 모든 환경에서 웹팩에서 처리해야하는게 아니라 유연할 수 있음
+
+github.com/jmyoow에서 웹팩 클론
+test폴더를 만들고 vscode에 드래그앤드롭
+vscode 내장터미널을 사용해서 터미널 열기, ctrl+j
+여기에 git clone (주소) 한 후,
+디렉토리를 webpack-js-html로 이동, 안의 readme를 읽고 순서대로 해보면 됨
+
+readme에 package설치를 여러개 하고 있는데, @를 기준으로 띄어쓰기가 많음
+하나하나가 기능을 수행하는 플러그인
+packagejson에 scripts의 start를 미리 세팅을 해놔서 npm start로도 실행이가능
+개발이 끝난 후 실제로 서비스할 파일을 만들때 build를 하는데 이게 번들링이라고 볼 수 있음
+npm : node package manager, 패키지를 설치해주는 툴
+--> 컴퓨터에 node.js가 설치가 되어있어야 함
+nodejs.org에 들어가서 LTS버전을 설치해야 함(long term support)
+package.json이 패키지들의 정보를 담는 역할도 함, 그래서 설치하면 json파일도 변화가 생김
+--> package.json파일만 있으면 npm i 로(i 뒤에 패키지 이름들을 지정하지 않아도) json에 적혀있는 패키지의 버전들이 알아서 자동으로 설치가 됨
+-D옵션을 주면 개발환경에서만 사용할 애라는걸 알려줌,
+--> dev dependancy에 패키지들이 설치되고, 그 옵션을 안주면 그냥 dependencies에 설치가 됨
+웹팩 자체가 개발할 때만 사용하는 애들이라 -D를 기입
+
+설치 후에 npm start를 하면 localhost:8080에 
+src폴더에 가면 개발해놓은 코드가 있음
+
+npm run build를 하면 새로운 폴더(dist)가 만들어지고, 최종 배포용 파일이 만들어짐(압축 되어 있음)
+css와 이미지 파일도 생성이 됐는데, 우리 웹팩은 js만 빌드해주는 거라서 이 이미지 파일은 복제가 될 뿐
+
+webpack.config.js는 웹팩 설정 파일인데
+entry : main : ./src/main.js라고 되어있는데, 빌드할 때 시작점 파일임
+빌드했을 때 dist파일이 생기는데 output에 지정을 해뒀기 때문, filename도 min.js로 만들어놨음
+devServer: liveReload : true는 소스코드 고치면 자동으로 새로고침 되게
+optimization : minimizer:의 부분들은 빌드할 때 소스코드를 압축되도록 하는 것,
++ 개발단계에서는 console.log로 막 찍어보는데 그런거 배포용 파일에서는 필요가 없어서 drop_console: true로 콘솔 로그를 자동으로 날려줌
+module : rules:loader:에 babel이라고 있는데 얘는 babel.config.js라고 설정 파일이 따로 있는데, 최신 문법으로 개발한 js코드를 예전 브라우저에서도 잘 돌아가는 코드로 변환해주는 애, babel도 웹팩에 얹혀서 사용하면 좋음
+index.html에 보면, css는 연결해줬는데 js는 연결 안해줌, 근데 dist폴더에 최종적으로 만들어진 index.html를 보면 main.min.js가 추가되어있음, 490.min.js는 promise를 써서 그거 관련되게 자동으로 생긴 것
+--> 알아서 생기고 알아서 연결까지 됨, 따로 js파일 연결x
+웹팩에서 css도 같이 처리해주게 하면, css도 파일연결을 안해도 되지만, css는 안했으니까 일일이 연결
+new CleanWebpackPlugin밑의 CopyWebpackPlugin에는 우리가 그대로 dist폴더에 복제시킬 파일들을 써주면 됨
+js 모듈만 파일 변환을 해주고 이미지, css는 저기에 설정을 해줘야 함
+설정을 안해주면 dist폴더에 안들어감, 반대로 지정된 경로에 그 파일(css, 이미지)이 없으면 그것도 에러가 남
+
+-> 미리 만들어진파일이 아니라, 우리가 만든 애들을 웹팩으로 해보자
+src폴더의 파일들을 모두 없애기, html과 main.js를 만들기
+(main.js는 설정의 entry를 그걸로 설정해놔서) 
+대충 이렇게 만들고 npm start를 하면 에러 남, main.css와 img파일이 없어서
+웹팩에 세팅을 그렇게 해놨으니까
+우리프로젝트에서는 필요가 없으니까 웹팩의 부분을 지우기
+build도 해보는데 그렇게 만들어진 최종 html을 live server로 동작시켜보면 똑같이 잘 나옴
+
+------------------------------------------
+three.js 사용방법 3
+웹팩을 이용하기!
+웹팩 폴더를 드래그앤 드롭
+
+npm i three가 추가됨
+웹팩 구동에 필요한 여러 패키지들을 readme를 보고 설치하기
+
+02.module에서 했던 main.js를 복붙
+main.js에서, 모듈을 import했었는데 웹팩을 사용하기 때문에 경로를 넣는게 아니라 그냥 'three'라고 입력
+--> 자동으로 패키지를 찾아감
+index.html을 만들고 main.js는 따로 연결 안해도 웹팩에서 자동으로 추가해줌
+
+npm start를 하면 오류가 뜨는데, main.css가 없어서그렇다. 
+--> webpack.config에서 css자체를 안쓸거면 copywebpackplugin을 주석처리
+이후 npm start하면 정상
+따로 css파일을 쓰겠다고 하면 main.css를 풀어주고 src폴더에 main.css 만들기(body에 8px 틈새가 있음)
+css파일은 index.html에 연결해줘야(웹팩에서 자동처리x)
+
+npm run build로 dist폴더가 생기면서 배포용 파일이 만들어짐
+--> 웹서버에 업로드해서 서비스하면 됨
