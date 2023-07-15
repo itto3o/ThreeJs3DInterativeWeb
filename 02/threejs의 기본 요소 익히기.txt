@@ -180,3 +180,27 @@ canvas가 이제 2배가 됨
 window.devicePixelRatio가 숫자가 안떨어질 경우도 있고 3일 경우도 있는데 2배정도만 해도 다 깨끗하게 잘 보임, 성능도 우수함
 1:1아님 2:1이라
 --> 1보다 크다면 2로 하고, 아니라면 1로 해주기
+
+
+-----------------------------
+배경의 색, 투명도 설정하기
+
+ex02파일을 03으로 save as 저장, main.js에서 03실행
+
+renderer를 만들때 옵션을 alpha:true --> 투명해짐
+검은색이 투명해진건지, 하얀색이 된건지 구분이 안되니까 css에서 배경색을 넣어주기
+원래 상태에서(true로 안줬을 때는) css에 배경색을 넣어도 티가 안나는데, alpha true를 한 뒤에는 파란색이 나옴
+
+이 투명을 살짝 반투명하게 하고 싶다면 renderer.setClearAlpha() 인자를 숫자로 0~1를 넣어줄 수 있음, 0.5는 50% 불투명
+색깔을 넣으려 한다면
+rednerer.setClearColor()에 색깔 넣기, 인자로 0x00ff00으로 하면 연두색, '#00ff00'도 가능
+이 상태에서 다시 setClearAlpha로 0.5를 지정하면, 뒤에 css로 넣은 dogerblue가 있어서 청록색이 됨,
+그 css를 주석처리하면 연두색에서 좀 더 파스텔색이 됨
+--> 이 두개를 조합해서 배경색 만들 수 있음
+
+이번엔 렌더러가 아니라 scene에서 배경색 설정, scene자체는 무대니까 , scene에 있는게 더 우선순위가 높고 render위에 scene이 있음
+scene에 background를 하면 renderer에 설정한건 묻힘
+scene.background = <<여기에 숫자를 넣어야하는데 위에서 썼던 css방식은 숫자가 아니니까 three.js에서 지원하는 color를 만들기
+new THREE.Color('blue'); 이렇게
+
+배경 자체에 투명도를 적용한다고 하면 renderer에서 해야함
