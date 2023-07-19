@@ -309,3 +309,25 @@ Date.now();하면 엄청나게 큰 숫자가 찍힘
 oldTime은 함수바깥에 선언해놔서 얘는 값의 변화가 없을 테니까
 delta를 구한후에 현재의 시간(new Time)을 oldTime에 넣어줘서 값을 갱신
 이 방법은 three.js랑 상관이 없어서 일반 canvas application에서 사용할 수 있음
+
+-------------------------------------
+안개(Fog)
+
+07.js
+
+안개를 확인하려면 여러 물체가 여러 위치에 있는 상태에서 진행하는게 더 잘 보여서
+mesh를 만드는 부분에서 10개를 만들것
+이때 geometry, material은 계속 사용할 수 있음
+
+배열을 만들고
+mesh.position.x = Math.random() * 5(5범위 내에서 랜덤), random은 0~1 사이의 랜덤한 값,0~5 사이니까 양의 영역에서만 나타나게 됨
+--> 왼쪽에도 나타나게 하려면 -2.5를 빼줄 것
+meshs.push(mesh)
+
+scene.fog = new THREE.fog((색깔), (어느서부터 어느 길이에 끼게 할건지 near, far 설정))
+눈에 보이듯이 뿌옇게 보이는게 아니라 색깔이 은은하게 들어가게 됨(그라데이션)
+안개 색깔을 배경과 맞추면 안보이게 됨(서서히 사라지게 되는  효과가 나타남)
+
+한 줄 복사는 vs code에서 alt shift 방향키
+
+meshes.forEach( item => {}) mesh의 item변수를 접근, item.rotation.y +=
