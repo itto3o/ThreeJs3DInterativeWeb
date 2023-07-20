@@ -357,3 +357,30 @@ gsap.to가 가장 기본, 변화를 주고 싶은 js 오브젝터 넣어주기, 
 duration: 1,
 y: 2,
 z: 3,
+
+
+-----------------------------------
+npm, webpack을 사용하지 않고 개발하는 방법
+소스코드 연결하는 방법
+
+소스코드를 가져와서 쓸 때 웹팩을 안할때
+직접 다운로드를 받을 것, three.js의 zip파일을 다운받음,
+index.html에서 webpack을 사용할땐 연결을안했는데 지금은 해야함, script src = "main.js"
+다운받아놓은 zip을 압축 풀고, 필요한 부분만 가져다 쓰기
+build파일의 min.js, module.js를 갖고오기
+
+module을 사용할 땐 script src="main.js" type="module"
+orbitControls도 같은 경로를 타고 들어가서 있는 js파일을 복붙
+
+orbitControls.js에서도 from three로 되어있는데, webpack을 사용하지 않으니까 이 경로 또한 앞에 ./, 뒤에 module.js를 붙여줘야 함
+코어파일 import해올때도 경로를 같게 해줘야 한다~
+
+
+js 모듈을 사용하지 않을때는
+script src="three.min.js" 해주고
+orbitControls.js는 모듈을 사용하는방식으로 가져왔는데, (jsm폴더의)
+모듈을 사용하지 않을때는 js폴더에서 가져와야함
+이 js에서 갖고온 파일을 script src로 연결
+이후 main.js의 OrbitControls를 생성하는 부분에 THREE.를 붙여줘야함
+
+(이 방식들은 추천하진 않음)
