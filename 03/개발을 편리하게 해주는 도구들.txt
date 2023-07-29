@@ -37,3 +37,39 @@ document.body.append(stats.domElement);
 추가해서 성능체크 가능,
 너무 버벅이지는 않는지
 개발자 도구에서 콘솔에 출력하는게 부하가 많이 걸리는데, 이걸 없애고 테스트하는 게 좋을 수 있따.
+
+-----------------------------------------
+GUI 컨트롤
+
+지금까지는 테스트할 때(카메라 위치 옮기거나 할때) 소스코드를 바꿔가면서 했었는데,
+이걸 테스트하기 편하게 GUI로 쉽게 마우스로 조절해볼 수 있는 GUi를 제공하는 라이브러리 사용하기
+
+npm i dat.gui 설치
+03.js로 저장
+
+stats지우기
+
+import dat from 'dat.gui';
+mesh 아래부분에, const gui = new dat.GUI();
+--> 웹화면 열면 close Controls가 생기고, 클릭하면 Open Controls로 바뀜
+자바스크립트 오브젝트의 속성값을 GUI로 조정할 수 있게 함,
+
+gui.add(오브젝트(mesh.rotation이 조정할 하나의 오브젝트) mesh.position, (조정하고 싶은 속성을 문자열로) 'y', (범위 최소 최대)-5, 5, (stat 단위(옮길때마다 얼만큼씩 조정해줄지)) 0.01)
+--> 마우스로 조정하면 y값이 달라짐
+threejs 오브젝트뿐만 아니라, js오브젝트 객체도 넣어줄 수 있음
+사용할 때 저렇게 인자로 쓸 수 도 있지만,
+gui
+	.add(mesh.position, 'z')
+	.min(-10)
+	.max(3)
+	.step(0.01)
+	.name('메쉬의 Z위치') // 레이블 수정
+
+이렇게 빌더형식으로 할 수도 있음(name만 빌더형식으로 할 수도 있고)
+
+카메라도 넣어보기
+gui.add(camera.position, 'x', -10, 10, 0.01);.name('카메라 X');
+카메라 위치가 달라져도 메쉬를 계속 바라보게하는, lookAt도 넣어주기
+camera.lookAt(mesh.potition);
+--> 메쉬를 바라보지 않음, 카메라 이동을 시키면 안바라보게 됨,
+draw함수가 계속 실행되기 때문인데, 이 draw함수에서도 lookAt()을 해줘야함
