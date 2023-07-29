@@ -1,0 +1,39 @@
+03_utility폴더를 드래그 앤 드롭
+
+Axes는 축, Grid는 그리드
+Axis는 단수
+
+helper는 도와주는 것, 시각적인 가이드를 제공
+readme에 있는 패키지 설치
+
+현재 그림자 부분이 잘 안보이는 것 같아서 light를 하나만 더 추가(ambientLight : 은은하게 전체적으로 조명을 적용해줌)
+
+axesHelper를 new THREE.axesHelper(); 로 만들면 화면에 축이 생김,
+좀 작다 싶으면 인자로 숫자를 부여,
+z축(앞부분)은 안보이는데 카메라가 정면을 바라보고 있어서 그렇다.
+--> 카메라를 살짝 위로 y를 1, x는 1
+
+이 상황에서 큐브를 x축 방향으로 이동시켜보기
+
+
+GridHelper
+scene.add, size를 인자로 넣어주면 됨
+사이즈를 줄여준 후,
+camera를 y=3, z=0; 한 후 lookAt(mesh.position);으로 mesh를 바라보게끔
+camera.lookAt을 mesh가 정의된 이후에 넣어주기
+
+------------------------------------
+초당 프레임 수(FPS) 체크하기
+
+ex02.js
+
+stats를 추가, threejs에 없는 라이브러리, 터미널 열어서 npm i stats.js를 설치
+import Stats from 'stats.js'
+
+stats = new Stats();
+document.body.append(stats.domElement);
+--> 웹 화면에 FPS 창이 뜸, 그런데 숫자가 안뜸
+--> 반복실행하는 draw안에서 업데이트를 해줘야함 stats.update();
+추가해서 성능체크 가능,
+너무 버벅이지는 않는지
+개발자 도구에서 콘솔에 출력하는게 부하가 많이 걸리는데, 이걸 없애고 테스트하는 게 좋을 수 있따.
