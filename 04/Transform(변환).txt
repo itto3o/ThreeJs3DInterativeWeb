@@ -16,3 +16,14 @@ threeorg에서 vector3를 보면, vector3는 3차원 공간에서 점의 위치�
 --> 길이(0,0,0에서 오브젝트까지의 거리) mesh.position.length();
 mesh.position.distanceTo(new THREE.Vector3(1, 2, 0)) : 새로운 벡터까지의 거리
 --> (camera.position) 등을 인자로 넣을 수 있음
+
+
+-----------------------------------------
+크기 조정
+ex02.js
+
+mesh.scale(x,y,z or set 가능)
+mesh.scale.x = 2; : x축 방향으로 2배만큼 늘어남
+mesh.scale.y = 0.5; : 납작해짐
+
+mesh.scale.set(1, 1, 1);
