@@ -1,0 +1,18 @@
+위치 이동
+04_transform 폴더를 vscode에서 드래그앤 드롭, readme에 있는 npm i 설치들 다 설치, three.js와 dat.gui도 모두 설치
+
+ex01.js에는 기본 형만,
+
+npm start로 서버를 구동하면 gui에 축 헬퍼로 축도 나타나있고, gui에 카메라 x,y,z가 있음
+
+draw 함수에 mesh.position.y = 2; 로 하면 2로 올라감, 애니메이션을 주려면 값에 변화를 주면 됨
+
+지금까지 position설정을 해줬는데, 이거 말고 다른 방법이 있음
+mesh.position.set((x,y,z) 0,0,0);
+취향 차이
+
+position이라는 오브젝트는 무엇인가?
+threeorg에서 vector3를 보면, vector3는 3차원 공간에서 점의 위치를 나타내는 객체임, x y z값을 갖고있음
+--> 길이(0,0,0에서 오브젝트까지의 거리) mesh.position.length();
+mesh.position.distanceTo(new THREE.Vector3(1, 2, 0)) : 새로운 벡터까지의 거리
+--> (camera.position) 등을 인자로 넣을 수 있음
