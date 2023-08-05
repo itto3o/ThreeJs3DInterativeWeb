@@ -1,0 +1,35 @@
+geometry를 box만 써봤는데 다양한 게 있어서 뭐가 있는지 몇가지 살펴보기
+
+카메라 컨트롤 : 카메라를 조정할 수 있는 내장된 그것..
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+					// 캔버스 객체
+controls = new OrbitControls(camera, renderer.domElement);
+--> 이걸로 웹에서 드래그하면 카메라를 회전시킬 수 있음, 휠로 줌인 줌아웃
+
+meterial에서 wireframe:true로 하면 뼈대만 보여서 형태를 파악하기 수월함
+
+계속 줌인을 하면 box안으로 카메라가 들어가게 되는데, 이때 mesh가 보이지 않게 됨
+three.js는 앞면만 보여지게 하기 때문에 큐브 안으로 들어가버리면 큐브의 안쪽면은 안보임,
+--> 보이게 하려면 meterial에서 side : THREE.DoubleSide로 하면 됨
+
+geometry들을 공식사이트 가서 살펴보면,
+설명이 잘되어있음, widthSegments : 도 옵션이 있는데 얼마나 side를 나눌지
+기본적으로 three.js의 면은 삼각형으로 되어있는데, widthSegments를 2로 하면 이 삼각형이 2배로 늘어나서 더 작은 삼각형으로 이뤄지게 됨,
+wireframe이 true가 아니라면 티는 안남
+왜 segment를 조정할까?
+--> vertax가 추가가 된거라서, 이 점들의 좌표를 바꾸면 geometry모양 자체가 바뀌어서 멋지게 만들 수 있음
+
+circle의 segment를 줄이면 삼각형으로 만들어지는 도형이라 각진 원이 될 수 있음
+thetaStart, length는 컴퍼스로 원을그린다고 생각했을때 시작지점과 얼만큼 그릴지를 결정함(이걸로 나팔모양을 만들 수 있음)
+
+Cone은 뿔모양, segment를 늘리면 원뿔모양이 됨, openEnded를 true로 하면 밑면이 없어져 뚫림
+
+cylinder는 다각기둥, 원기둥 가능, radus Top, bottom 조정 가능,
+
+plane은 바닥같은거 깔때, (심플한 사각형느낌), 처음에는 서있어서 바닥으로 쓰려면 90도로 회전시켜줘야함
+
+shape는 곡선을 직접 코드로 만들어서 bezierCurveTo로 가능, 가능은 하지만 잘 쓰진 않을듯
+
+sphere는 구, 얘한테도 theta가 있는데, 이거는 위아래 조정, phi는 좌우조정
+
+Torus는 도너츠
