@@ -33,3 +33,32 @@ shape는 곡선을 직접 코드로 만들어서 bezierCurveTo로 가능, 가능
 sphere는 구, 얘한테도 theta가 있는데, 이거는 위아래 조정, phi는 좌우조정
 
 Torus는 도너츠
+
+
+----------------------------------------------
+Geometry 형태 조작하기 1
+
+태양같은 물체를 만들기, 동그란데 겉표면이 꾸물꾸물거림 표면위의 vertex가 랜덤하게 바꿔짐, 애니메이션으로 효과를 줌
+box를 만들때 세그먼트를 많이많이 올렸는데, 그만큼 vertax가 생긴 거고, 그 점들을 일정 범위 내에서 움직이도록 하면 위와같은 게 됨
+html에 깔아준다거나, 바다로 표현한다거나, 느낌을 바꿀 수도 있게 응용가능
+
+ex02.js
+vertex는 점 하나하나를 말하는 것
+
+sphere geometry 찾아서 그대로 쓰기
+
+mesh에서 다 지우고 geometry = new THREE.SphereGeometry(5, 64, 64);
+material은 orangered, doubleSIde
+
+카메라가 너무 붙어있는 것 같아서
+camera.position.z = 10;
+
+표면이 부드럽지 않고 각이 졌었는데, 
+--> meatrial에서 flatShading : true로 하면 각이지게 됨
+(약간 폴리건 느낌)
+
+vertex의 위치에 접근하는 방법ㅂ
+mesh의 attributes의 position 속성은 정점 vertex를 담고있는 배열, float32 typed Array되어 있음.
+javascript의 배열은 아무런 값도 다 넣을 수 있는데 얘는 float만 담는 대신에 성능이 뛰어남
+attributes.position.array를 찍어보면 정점 개수의 세배만큼(x,y,z) -0, 5, 0, -0, 5, 0, 이런 식으로 되어있는데, 세개씩 끊어서 x y z로 알면 됨 이 세 개가 하나의 점을 표현
+
