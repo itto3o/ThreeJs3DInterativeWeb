@@ -48,16 +48,14 @@ export default function example() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    console.log(geometry.attributes.position.array);
-
-	// const geometry = new THREE.BoxGeometry(1, 1, 1);
-	// const material = new THREE.MeshStandardMaterial({
-	// 	color: 'hotpink',
-	// 	side: THREE.DoubleSide,
-	// 	// wireframe: true
-	// });
-	// const mesh = new THREE.Mesh(geometry, material);
-	// scene.add(mesh);
+    // console.log(geometry.attributes.position.array);
+	const positionArray = geometry.attributes.position.array;
+	for(let i = 0; i < positionArray.length; i += 3) {
+		// 정점(Vertex) 한 개의 x, y, z 좌표를 랜덤으로 조정
+		positionArray[i] = positionArray[i] + (Math.random() - 0.5) * 0.2;
+		positionArray[i + 1] = positionArray[i + 1] + (Math.random() - 0.5) * 0.2;
+		positionArray[i + 2] = positionArray[i + 2] + (Math.random() - 0.5) * 0.2;
+	}
 
 	// 그리기
 	const clock = new THREE.Clock();
