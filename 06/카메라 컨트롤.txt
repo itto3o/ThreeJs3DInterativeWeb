@@ -83,7 +83,6 @@ trackball은 draw함수에서 update를 안해주면 동작을 안함
 
 기본적으로 enabledamping이 있음, 설정을 안해줘도 부드럽게 회전
 
-<<<<<<< HEAD
 ---------------------------------
 FlyControls
 
@@ -102,5 +101,21 @@ q, e는 회전, r은 위로, f는 아래로
 앞 뒤 좌 우로 움직이는 것도 속도 조절 가능, movementSpeed = 3;
 
 dragToLook = true로 하면, 마우스에 반응하지 않고 roll(회전)이 안되고 드래그를 해야 움직이게 됨
-=======
->>>>>>> 3a4306ccc7489ac689afb7dbeecc3bbf2d01219c
+
+
+----------------------------------------
+FirstPersonControls
+
+ex04.js
+
+변한게 없어보임, wsad도 똑같이 먹음
+
+firstPerson은 flyControls의 대체 구현임
+draw안에서 delta로 update를 계속 해줘야함
+controls.movementSpeed = 10;
+activeLook이 있는데, false로 하면 마우스를 움직여도 주변을 둘러볼 수 없음
+
+lookSpeed는 0.1,
+flyControls에서는 rollSpeed였음
+
+controls.autoForward = true로 하면 저절로 앞으로 나아감
