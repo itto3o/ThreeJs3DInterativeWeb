@@ -83,6 +83,7 @@ trackball은 draw함수에서 update를 안해주면 동작을 안함
 
 기본적으로 enabledamping이 있음, 설정을 안해줘도 부드럽게 회전
 
+<<<<<<< HEAD
 ---------------------------------
 FlyControls
 
@@ -101,3 +102,5 @@ q, e는 회전, r은 위로, f는 아래로
 앞 뒤 좌 우로 움직이는 것도 속도 조절 가능, movementSpeed = 3;
 
 dragToLook = true로 하면, 마우스에 반응하지 않고 roll(회전)이 안되고 드래그를 해야 움직이게 됨
+=======
+>>>>>>> 3a4306ccc7489ac689afb7dbeecc3bbf2d01219c
