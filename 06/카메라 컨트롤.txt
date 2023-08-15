@@ -1,0 +1,85 @@
+threejs에서 카메라 컨트롤을 쉽게하는 기능들을 미리 공식문서에 적어놨는데, 우린 이미 orbitcontrols 하나 써봤따
+
+카메라 컨트롤은 미리 만들어져서 쉽게사용할 수 있는데, 추가적인 기능이 필요할땐 복잡할 순 있음, 컨트롤을 새로 만들지 복잡하게 추가할지 정해야함
+orbitControls 먼저 자세히
+
+npm i 로 패키지 설치, threejs설치
+
+
+ex01.js에서, import 해와야
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
+controls
+const controls = new OrbitControls(camera, renderer.domElement);
+
+mesh
+material을 for을 돌면서 계속 바꿔줄건데, geometry(모양)은 그대로 두면서 재질만 매번 바꾸기 위함
+material = new THREE.mesh
+
+color를 랜덤으로 할건데 ``을 사용 : enter를 쳐서 다음 줄로 넘어가도 오류가 안뜸, 문자열 처리를 할 때 편리
+color : `
+	rgb(
+100, 
+100, 
+100
+)
+`
+
+이 100대신에 템플릿문자열로 랜덤으로 만들기, ${}안에 넣으면됨 
+0이 최소, 255가 최대, Math.random() * 255 (얘가 0~1사이기 때문에)
+
+이렇게 해두고
+mesh = new THREE.mesh(geometry, material);
+mesh.position.x = (Math.random() - 0.5) * 5; -5~5의 위치가 랜덤으로 나타나게
+scene.add()
+
+--> 근데 이렇게 하면 다 흰색으로 나옴
+mesh.random() 을 하면 소수가 나오는데 정수로해줘야하니까 Math.floor() (내림처리) 이 안에 넣어주기
+--> 새로고침할때마다 랜덤 색상
+
+검게 나오면 잘 안보일텐데, 이 rgb값을 0부터 하지 않고 최소 50을 가져가게끔
+50 + ~ * 205로 
+
+
+controls에 조정할 수 있는 세팅
+enableDamping = true로 하면 컨트롤을 좀 더 부드럽게 해주는 건데, 얘만 해주면 되는게 아니라
+매번 반복실행되는 draw함수에 controls.update(); 를 추가해줘야함
+원래는 회전할때 좀 마우스를 돌린 만큼만 딱 돌아갔는데, 이 옵션을 키면 돌린거에서 딱 멈추지 않고 부드럽게 감속하면서 서서히 멈춤
+
+draw에 controls.update를 호출했는데, 각 컨트롤 종류에 따라 인자에 뭐 들어가야할 수도 있고 그냥 호출만 해도 되는 경우가 있는데, 이거는 컨트롤마다 다르게 해주기
+controls만 사용하면 update를 안해줘도 되는데, 변화가 있을때 update를 해줘야 제대로 반영이 되니까 기본적으로 넣어주면 좋음
+
+enableZoom = false로 하면 마우스 휠로 줌인 줌아웃이 안됨
+maxDistance = 10; 으로 하면
+줌인 줌 아웃에 범위를 한정할 수 있음
+minDistance는 확대에 범위
+
+minPolarAngle 은 수직방향 회전 각도
+Math.PI / 4하면 45도인데, 카메라 각도가 45도 위로 안올라감
+MathUtils.degToRad(45)여도 똑같음
+max는 135정도로 범위 한정 가능
+
+원래는 180도 범위까지가능
+
+contorls.target.set(x, y, z);
+회전의 중심점을 정해줌
+
+autoRotate = true는 자동으로 돌아가고,
+이 속도는 autoRotateSpeed = 5;로 빠르게 할 수있음
+
+
+--------------------------------
+TrackballControls
+
+ex02.js
+import부분에ㅓㅅ orbitControls가 아니라 TrackballControls로
+
+orbitControls와 비슷한데, 다른점은 수직 방향으로 회전이 다 됨
+동그란 trackball로 조정하는 느낌
+
+maxDistance, minDistance도 있음
+controls.target.set(3, 3,3) : target을 설정할 수 있음
+trackball은 draw함수에서 update를 안해주면 동작을 안함
+
+기본적으로 enabledamping이 있음, 설정을 안해줘도 부드럽게 회전
+
