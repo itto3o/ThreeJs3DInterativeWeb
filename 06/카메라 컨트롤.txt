@@ -163,3 +163,50 @@ meshes 배열을 만들어서, scene.add를 할때 meshes.push를 함
 mesh를 만들때 이름을 넣어주면 알 수 있음
 mesh.name = 'box-${i}';
 
+
+-------------------------------------
+마인크래프트 스타일 컨트롤
+05.js에 이동 기능을 추가(wsad키로이동)
+--> 마인크래프트 게임같은 움직임
+
+05를 07로 복붙, 
+pointerlockControls의 문서에는
+moveForward, moveRight 등이 있음
+
+키 컨트롤을 담당할 클래스를 모듈로 따로 만들어두기
+--> KeyController.js로 이름을 짓기
+export class KeyController {
+constructor() {
+// 생성자
+this.keys = []; // keys라는 배열을 하나 만들어주기
+키가 눌렸을 때 this.keys[e.code] = true; 이벤트 객체의 code를 index로 삼아 그 부분을 true로
+
+처음에는 빈 배열이지만 키가눌렸을 때 해당 키가 뭐가 눌렸는지 알수 있음
+window.addEventListener('keyup') 키를 뗐을때 delete this.keys[e.code]; 를 하면
+this.keys배열에서 e.code이름의 속성을 삭제 함
+여기서 e.code는 키마다 정해져잇는데 W는 KeyW로 정해짐
+와 index로 문자열이 들어가네
+--> 누르고 잇지않다는 것을 판별
+
+ex07.js에서 keyController를 import해오기
+import { KeyController } from './keyController'
+
+인스턴스 생성
+controls부분에 이어서,
+const kKeyController = new KeyControlsser(0;
+
+함수를 하나 만들어서, walk();를 마듦
+draw함수 안에서 walk();를 계속 실행하도록 하면 계속 실행함
+key Controller에서 어떤 키를 눌렀는지판별할 수 잇게 해놨는데, 얘를 계속 체크하도록 무한반복으로 판별함
+
+walk함수안에서 구현을 함
+keyController의 keys배열에서 KeyW 속성이 true라면으로 판별할 수있음
+controls.moveForward();로 수행, 인자로 distance를 넣어주는데 0.02씩 가게
+
+키를 떼면 true가 아니니까 앞으로 안감,
+
+뒤로 갈때는 foward에서 방향을 -로 하면됨
+왼쪽으로는 Right에 -로 하면 됨
+
+여기에 방향키도추가하고 싶다면
+e.code는 ArrowUp이라서 if문에 || 으로 하면 됨
