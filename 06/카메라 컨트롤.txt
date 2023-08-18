@@ -141,3 +141,25 @@ click했을때 lock을 호출하도록 했으니까, click을 하면 controls이
 controls.addEventListener(lock), unlock을 할 수 있음
 시점에 시해행줄 동작이 있다면 그렇게 해주면 됨
 
+
+
+--------------------------------------------
+DragControls
+
+ex06.js, main.js, import 수정
+이벤트 부분 삭제
+
+drag는 매개변수에 들어가는 인자들이 다름,
+첫 인자로어떤 메쉬들을 드래그할 건지 정해줘야함
+배열형태로 넣어도 됨
+meshes 배열을 만들어서, scene.add를 할때 meshes.push를 함
+그리고 meshes배열이 완성된 다음에 아래에서 해줘야함
+--> mesh를 드래그할 수 있음
+
+컨텐츠 하나하나일 수 있는데, 어떤 애인지 알아낼 수 있으면 좋을텐데
+--> controls.addEventListener('dragstart' e => {
+하면 e.object.name를 출력하면 어떤 mesh를 드래그 했는지 알아낼 수 있음
+
+mesh를 만들때 이름을 넣어주면 알 수 있음
+mesh.name = 'box-${i}';
+
