@@ -119,3 +119,25 @@ lookSpeed는 0.1,
 flyControls에서는 rollSpeed였음
 
 controls.autoForward = true로 하면 저절로 앞으로 나아감
+
+
+---------------------------------------
+PointerLockControls
+
+ex05.js, import, main.js, Controls
+
+controls.update()가 없음 pointerLockControls에는 없음
+
+update만 해주면 동작을 했었는데, pointerLock은 update도 없고 가만히 냅두면 동작을 안함
+--> controls.lock();을 해야함, 이 함수를 하려면 사용자의 동작이 필요함
+--> controls.domElement와 renderer.domElement는 같은 애임
+controls.domElement(canvas객체)에 click을 등록하는 함수에서 lock();이 실행됨
+--> click을 하면 ESC를 눌러 커서 표시라는 창이뜨고 움직일 수 있음
+pointerLock를 하면 마우스 커서가 사라지면서 마인크래프트와 같은 컨트롤이 나옴
+
+click했을때 lock을 호출하도록 했으니까, click을 하면 controls이 동작하고, ESC를 누르면 빠져나옴
+
+이벤트 들이 있는데,
+controls.addEventListener(lock), unlock을 할 수 있음
+시점에 시해행줄 동작이 있다면 그렇게 해주면 됨
+
