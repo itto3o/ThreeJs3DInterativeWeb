@@ -1,0 +1,17 @@
+material
+npm i 로 패키지 설치, three.js 설치, npm start
+
+MeshStandard를 MeshBasic으로 고치기
+--> 입체감이 사라짐
+
+회전 위해서 Controls도 추가
+OrbitControls
+
+camera.y가 1.5되어있는데 얘 지우기 --> 정중앙에 오게 되는데
+controls를 추가하면 자동으로 camera가 좀 위로 올라가서 내려다보게 됨,
+--> controls자체가 추가되면서 lookat으로 mesh를 바라보게 되기 때문
+
+MeshBasic은 입체감이 없는 애, 이미지가 포장이 되어있고 빛, 그림자에 영향을 안받음
+--> light도 필요 없음
+기존 코드의 light 부분을 지워도 아무런 변화가 없음
+--> 성능이 가장 빠름, material중에 가장 성능이 좋음
