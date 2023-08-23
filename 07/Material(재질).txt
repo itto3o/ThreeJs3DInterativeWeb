@@ -8,10 +8,42 @@ MeshStandard를 MeshBasic으로 고치기
 OrbitControls
 
 camera.y가 1.5되어있는데 얘 지우기 --> 정중앙에 오게 되는데
-controls를 추가하면 자동으로 camera가 좀 위로 올라가서 내려다보게 됨,
---> controls자체가 추가되면서 lookat으로 mesh를 바라보게 되기 때문
+controls를 추가하면 자동으로 camera가 내려다보게 됨,
+--> controls자체가 추가되면서 lookat으로 mesh를 바라보게 되기 때문 ( 그냥 y 1.5에 한 것에서 lookat되는 효과가 있다는 말)
 
 MeshBasic은 입체감이 없는 애, 이미지가 포장이 되어있고 빛, 그림자에 영향을 안받음
 --> light도 필요 없음
 기존 코드의 light 부분을 지워도 아무런 변화가 없음
 --> 성능이 가장 빠름, material중에 가장 성능이 좋음
+
+
+------------------------------------------
+MeshLamberMaterial, MeshPhongMaterial
+
+ex02.js
+
+두개를 비교하면서 할거ㅏㄹ
+mesh도 두개 만들 것임
+
+box가 아닌 sphere로
+
+material은 1, 2로 해서 각각 다르게,
+
+이렇게하면 똑같은 위치에 서로 겹쳐있을 테니까 위치 조정
+mesh1은 -1.5, mesh2는 1.5
+
+--> 이렇게 하면 안보임,
+MeshBasic일때는 light가 필요없어서 지웠는데, 이제는 필요함
+빛이 없어서 안보이는 것
+--> 배경을 하얗게 한다면?
+--> 검게 보이게 됨
+
+ambientLight, directionalLight도 만들어주고 position도 수정 후 scene.add해주기
+--> 두개가 보이기 시작하는데 뭔가 달라보임
+--> Lamber는 하이라이트, 반사광이 없는 재질(무광 느낌), Phong은 하이라이트, 반사광 표현(유광 느낌)이 가능함
+--> phong은 정도를 조절할 수 있음
+
+shininess : 시니니스 샤이니니스, 1000으로 하면 더 당구공처럼 유광공이 됨
+0으로 한다면 Lamber와 똑같아짐
+Lamber가 성능은 더 좋음, (신경쓸 게 없으니까)
+
