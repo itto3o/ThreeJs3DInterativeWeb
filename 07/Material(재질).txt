@@ -82,3 +82,21 @@ material에 flatShading : true으로 하면 됨, lowPoly스타일로 바뀜
 
 ------------------------------------
 Mesh의 앞뒷면
+
+ex05.js
+
+material의 면, side에 대해
+vertex, face(면), edge(선)
+face(side)를 보이게할건지 안보이게 할건지 조절
+
+three mesh의 겉면, 앞면이 보이는 것.
+티나게 하기 위해 boxGeometry로 바꾸고 하나만 남기기
+
+directionalLight도 y를 1로 바꾸면 좀 더 밝아짐
+
+면의 뒤쪽, 안쪽면을 보이게 할건지
+(도형 안으로 들어가면 안쪽 면이 사라짐)
+
+material에서 side: THREE.FrontSide(는 기본값)
+side: THREE.BackSide(뒷면만 보임) 양각/음각에서 음각느낌
+side: TRHEE.DoubleSide(양쪽 다)
