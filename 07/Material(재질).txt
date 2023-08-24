@@ -100,3 +100,46 @@ directionalLight도 y를 1로 바꾸면 좀 더 밝아짐
 material에서 side: THREE.FrontSide(는 기본값)
 side: THREE.BackSide(뒷면만 보임) 양각/음각에서 음각느낌
 side: TRHEE.DoubleSide(양쪽 다)
+
+
+-------------------------------------
+텍스쳐 이미지 로드하기
+
+ex06.js
+
+텍스쳐 이미지 로드하기
+(외부 이미지를 로드해서 material 겉면에 붙여주는 작업)
+
+이미지가 필요함, three model texture전용으로 만들어진 이미지를 사용하는게 좋음
+구글에 3d texture로 입력하면 3dtextures.me에 접속,
+카테고리가 있는데 (brick)벽돌 이미지를 클릭하면 download가 가능, 얘를 다 다운 받음
+
+src에 textures 폴더가 있음, 여기에 이미지가 들어잇는데 여기에 폴더(brick)을 만들고 다운받은 것들을 여기다 붙여넣기
+
+basiccolor를 로드하려면 textureloader라는 객체를 사용해야함
+const textureLoader = new THREE.TextureLoader();
+textureImage = textureLoader.load((경로)'/textures/brick/Brick_wall_...');
+--> 404로 파일을 찾을 수 없다고 나옴
+
+웹팩을 사용하고 있는데,
+웹팩 설정할 때 그대로 복사할 파일들은 경로설정을 해줘야함
+텍스쳐폴더를 사용하고 있는데 여기에 추가를 안해줌
+plugin patterns에 {from: "./src/textures", to: "./textures"},
+터미널 눌러서 서버를 종료했다가 다시 구동
+--> 404에러 사라짐
+잘 까먹음!!
+
+textureImage를 console.log로 출력해보면 textureImage로 출력됨
+
+load()에 인자가 더 들어갈 수있음,
+로딩중이라던지, 로드하다가 에러가 났다던지에 호출할 콜백함수를 정할 수 있음
+() => {} 로 가능, 첫번째가 로드됐을때, 두번째가 로드 중, 세번째가 로드 에러
+
+로드 후에
+material부분에
+map 이라는 속성으로 넣으면 됨
+map: texture
+
+원래 원본 이미지랑 다르게 빨간데, color속성을 없애면 원래 색깔로 됨
+MeshStandardMaterial로 적용돼서 하이라이트, 반사광, 그림자 모두 잘 표현되어있음
+--> standard가 아니라 basic이라면? 그림자, 하이라이트가 없어짐
