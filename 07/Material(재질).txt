@@ -18,7 +18,7 @@ MeshBasic은 입체감이 없는 애, 이미지가 포장이 되어있고 빛, �
 
 
 ------------------------------------------
-MeshLamberMaterial, MeshPhongMaterial
+MeshLambertMaterial, MeshPhongMaterial
 
 ex02.js
 
@@ -40,10 +40,31 @@ MeshBasic일때는 light가 필요없어서 지웠는데, 이제는 필요함
 
 ambientLight, directionalLight도 만들어주고 position도 수정 후 scene.add해주기
 --> 두개가 보이기 시작하는데 뭔가 달라보임
---> Lamber는 하이라이트, 반사광이 없는 재질(무광 느낌), Phong은 하이라이트, 반사광 표현(유광 느낌)이 가능함
+--> Lambert는 하이라이트, 반사광이 없는 재질(무광 느낌), Phong은 하이라이트, 반사광 표현(유광 느낌)이 가능함
 --> phong은 정도를 조절할 수 있음
 
 shininess : 시니니스 샤이니니스, 1000으로 하면 더 당구공처럼 유광공이 됨
-0으로 한다면 Lamber와 똑같아짐
-Lamber가 성능은 더 좋음, (신경쓸 게 없으니까)
+0으로 한다면 Lambert와 똑같아짐
+Lambert가 성능은 더 좋음, (신경쓸 게 없으니까)
 
+
+-----------------------------------------
+MeshStandardMaterial
+
+ex03.js
+
+
+MeshPhongMaterial이랑 MeshStandardMaterial로 비교
+
+첫번째거를 phong, 두번째거를 standard
+phong이 하이라이트가 기본적으로 보이ㅡㄴ데, standard는 하이라이트 부분이 별로 안보임
+둘다 하이라이트, 반사광 효과를 낼 수 있는데
+
+phong은 shininess : 1000으로 할 수 있엇는데,
+standard는 roughness(거칠기) : 0으로 하면 매끄러워보임, 0.3으로하면 phong과 비슷해지는데 느낌이 또 다르긴 함
+1로 하면 무광처럼 보임
+metalness(금속 재질) 성질도 있음, 0.3으로 하면 살짝 어두워짐, 0이 표준, 1로 하면 까매지고, 10이 되면 완전 까매짐
+금속 느낌이 나나? 플라스틱이 아니라 금속이 되...겠죠
+
+둘중에 뭘 쓸건지는 본인이 결정,
+성능은 phong쪽이 더 빠름, 
