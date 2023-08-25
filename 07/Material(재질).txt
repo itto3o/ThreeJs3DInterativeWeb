@@ -143,3 +143,38 @@ map: texture
 원래 원본 이미지랑 다르게 빨간데, color속성을 없애면 원래 색깔로 됨
 MeshStandardMaterial로 적용돼서 하이라이트, 반사광, 그림자 모두 잘 표현되어있음
 --> standard가 아니라 basic이라면? 그림자, 하이라이트가 없어짐
+
+
+---------------------------------
+로딩 매니저(여러 개의 텍스쳐 이미지)
+
+ex07.js
+
+여러개의 텍스쳐 이미지를 동시에 로드할때 사용
+new THREE.LoadingManager(); 만들기
+.on start = () => { console.log(); // 로드가 시작됐을때
+.onProgress = img => { // 이미지 여러개를 로드할 때 하나하나 될때마다 발생
+console.log(img + '로드');
+}
+.onLoad // 로드가 다 끝났을 때
+.on Error : 에러났을때
+
+textureLoader에서 했던거랑 비슷함
+이렇게 해준 loadingManager를 TextureLoader를 만들때 인자로 넣어주면 texture가 동작할때 loadingManager가 실행됨
+
+텍스쳐를 여러개 로드
+다운로드 받았던 이미지들을 5개 로드
+이미지 이름에 있는 특성 활용
+5개 각각 로드하고
+
+material의 map을 바꿔주고
+
+로딩매니저가 일하면서 콘솔에 정한대로 출력
+로드 시작
+img + 로드 * 5
+로드 완료
+
+로딩매니저를 안쓰면 textureLoader로 여러개 로드하는 것
+(똑같은 효과가 있음)
+
+로딩매니저는 여러개 로드 처리할때 컨트롤 할 수 있는 부분이 있음
