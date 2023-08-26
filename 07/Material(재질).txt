@@ -178,3 +178,36 @@ img + 로드 * 5
 (똑같은 효과가 있음)
 
 로딩매니저는 여러개 로드 처리할때 컨트롤 할 수 있는 부분이 있음
+
+
+-----------------------------------
+텍스쳐 변환
+
+ex08.js
+텍스처 이미지 변환
+(회전, 이동 등)
+
+패턴만 잇는건 위치 변화는 인지하기 어려워서
+새로운 텍스쳐이미지 다운로드받기
+3dtextures.me에 skull 다운로드, 5개 다
+
+textures폴더안에 skull만들고 다 옮기기
+
+texture에 이미지를 load하고 offset하면 옮겨짐
+offset.x = 0.3; 하면 이동하는데, 이미지가 옮겨지고 나머지 부분이 끝 픽셀이 그냥 늘어나기만 해서 이상해짐
+--> texture.wrapS = THREE.RepeatWrapping;
+이후 offset.y = 0.3을 해주면 또 y쪽으로 이미지가 이상해짐
+--> texture.wrapT = THREE.RepeatWrapping
+
+texture.repeat.x = 2라고 하면 이미지가 홀쭊하게 쪼그라듦 (한칸에 이미지가 2개 들어감)
+이상태에서 repeat.y = 2로 하면 4분할처럼 됨
+(이상태에서 wrapS, wrapT를 안해주면 똑같이 이미지가 없는 부분은 이상해짐)
+
+texture.rotation = (radian) 45도 돌리려면 Math.PI * 0.25 OR THREE.MathUtils.degToRad(45);
+10도, 20도, 30도 돌리면 기준이 가운데가 아닌 것 같이 가운데에 있던 해골이 자꾸 왼쪽으로 감
+--> 기준을 가운데로 잡기 위해
+texture.center.x = 0.5;
+texture.center.y = 0.5; 
+--> 이걸로 회전의 기준점을 설정할 수 있음
+
+
