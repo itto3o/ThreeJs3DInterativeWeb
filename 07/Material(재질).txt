@@ -211,3 +211,33 @@ texture.center.y = 0.5;
 --> 이걸로 회전의 기준점을 설정할 수 있음
 
 
+---------------------------------------
+ex09.js
+
+여러가지 텍스쳐가 적용된 큐브
+
+material 이미지 하나가 들어갔었는데,
+면마다 다른 이미지를 쓴다.
+
+mc(마인크래프트)style에 있는 16x16 짜리를 사용할 것임
+
+6개 다 load하기 불러오기
+
+하나를 적용시켜보면, 16픽셀을 늘린거라 뿌옇게 보이는데, (standardMaterial이 아니라 basic으로 불러와도)
+얘는 나중에
+
+
+얘네로
+materials = [ new THREE.MeshBasicMaterial({ map: rightTexture }), ... ];로 배열을 하나만들어서, 이 배열마다 material을 만들어주기
+(순서 지켜야함!)
+
+이 배열을 mesh를 만들때 materials를 넣어주면 됨
+
+픽셀이 살아있는 이미지로 만들려면,
+각 texture에 속성을 주면 됨
+rightTexture.magFilter = THREE.NearestFilter;
+깨끗한 픽셀이 살아있는 이미지가 됨
+작은 이미지의 픽셀을 살려서 작업하려면 nearestfilter를 해주면 됨
+
+--> 면마다 다른 텍스쳐를 로드할때
+각각 텍스쳐를 불러와서, materials 배열을 만들어서 mesh를 만들때 이 배열을 넣어주면 된다.
