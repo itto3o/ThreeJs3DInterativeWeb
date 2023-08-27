@@ -287,3 +287,21 @@ cone이 아니라 boxGeomtry로 하면 돌릴때마다 법선의 방향이 바�
 
 --> 이 느낌이 마음에 들면 쓰면 되고, 
 sphere로 하면 회전을 해도 변화가 없음, 법선의 각도 자체가 일정하기 때문에 box는 틀면 각도도 바뀌는데, sphere는 어느 방향에서도, 회전해도 각도가 똑같아서 변화가 없음
+
+
+-------------------------------------
+MeshMatcapMaterial
+
+ex12.js
+
+구글에서 matcap texture download로 검색하면 www.pinterest.com의 57matcap
+동그란 여러 이미지가 나오는데, matcap은 동그란 이미지에 입체감이 나게 쉐도우, 하이라이트를 적용해서 만든 이미지
+--> 이걸로 우리의 mesh에 적용해줌
+동그라미에 적용된 입체를 가지고 mesh에 그 느낌대로
+163FREE devian MatCaps를 다운로드받으면 됨,
+
+materail에서 MatcapMaterial로 해주고 matcap:에 matcapTex로 넣으면 됨
+--> 큐브에 이 느낌이 씌워짐
+sphere에 하면 원래 matcap같고, cone에도
+
+구형태에 입체감을 넣어놓으면 이걸 우리가 만든 mesh에도 적용을 해준다.
