@@ -241,3 +241,34 @@ rightTexture.magFilter = THREE.NearestFilter;
 
 --> 면마다 다른 텍스쳐를 로드할때
 각각 텍스쳐를 불러와서, materials 배열을 만들어서 mesh를 만들때 이 배열을 넣어주면 된다.
+
+
+-------------------------------------
+MeshToonMaterial(만화 느낌)
+
+ex10.js
+
+텍스쳐 이미지 로드하는 부분들은 다 지워주고
+
+mesh를 새로 만들기
+gemotry는 ConeGeometry() // 원뿔 모양
+처음에 바닥 반지름, 그다음 높이, 그다음 세그먼트(몇개로 나눌건지)
+반지름 1, 높이 2, 세그먼트 128
+const material = new THREE.MeshToonMaterial
+color : plum
+
+mesh = new THREE.Mesh(geomtry, material)
+scene.add(mesh);
+
+만화처럼 그림자 부분이 선명하게 나눠짐
+
+2D애니메이션도 투톤으로 하니까...
+톤의 단계를 나눌 수 도 있음
+--> 투톤의 단계를 해줄 그라데이션 작업이 필요한데 포토샵에서 간단히 해오기
+포토샵에서 새문서>width 3, height1로 만들고
+첫번째는 검은색, 두번째느 회색으로 한 후 저장, png로 textures에 gradient.png로 저장(이미 있음)
+textureLoader로 로드해오기
+
+이 텍스쳐를 mesh의 gradientMap: 의 값으로 넣어주면 
+뭔가 적용이 됐는데 만화 느낌이 없어짐
+--> 마인크래프트 블럭스타일의 픽셀 살려주는 (색깔의 경계를 명확히) 텍스쳐.magFilter = THREE.NearestFilter; 로 하면 단계가 늘어났음
