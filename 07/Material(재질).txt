@@ -272,3 +272,18 @@ textureLoader로 로드해오기
 이 텍스쳐를 mesh의 gradientMap: 의 값으로 넣어주면 
 뭔가 적용이 됐는데 만화 느낌이 없어짐
 --> 마인크래프트 블럭스타일의 픽셀 살려주는 (색깔의 경계를 명확히) 텍스쳐.magFilter = THREE.NearestFilter; 로 하면 단계가 늘어났음
+
+
+-----------------------------------
+MeshNormalMaterial
+
+ex11.js
+
+Normal은 법선 3D의 오브젝트의 면에 딱 수직으로 뻗어나가는 선, 이 선이 영어로 normal이라고 함
+
+MeshNormalMaterial로 바꾸고 color를 없애면 뭔가 색깔이 무지개색이됨
+법선 방향에 따라서 rgb색깔로 표현해줌, 
+cone이 아니라 boxGeomtry로 하면 돌릴때마다 법선의 방향이 바뀌니까 면의 색깔도 바뀜
+
+--> 이 느낌이 마음에 들면 쓰면 되고, 
+sphere로 하면 회전을 해도 변화가 없음, 법선의 각도 자체가 일정하기 때문에 box는 틀면 각도도 바뀌는데, sphere는 어느 방향에서도, 회전해도 각도가 똑같아서 변화가 없음
