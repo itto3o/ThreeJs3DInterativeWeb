@@ -305,3 +305,35 @@ materail에서 MatcapMaterial로 해주고 matcap:에 matcapTex로 넣으면 됨
 sphere에 하면 원래 matcap같고, cone에도
 
 구형태에 입체감을 넣어놓으면 이걸 우리가 만든 mesh에도 적용을 해준다.
+
+
+
+------------------------------------
+MeshStandardMaterial에 효과 더하기
+
+ex07.js에서 벽돌 이미지 load를 해놔서 얘를 save as로 ex13.js를 만들기
+
+벽돌이미지들의 특징으로 효과 만들기
+3d이미지용 텍스쳐를 만드는 전문 프로그램이 있어서 거기서 만드는게 필요하다면 효과적임
+--> sample이미지로 활용
+
+map:baseColorTex가 적용되어있는 상태
+normalMap : normalTex, 로 적용하면, 입체감이 느껴짐 원래는 밋밋했어서 약간 전단지?느낌인 것 같았는데 normalMap으로 하면 그래픽적용한 것 같이 입체감이 느껴짐
+
+여기서 더 입체감을 주려면
+roughness: 0.3으로 주면, 빛이 들어오게 바꾸니까 더 현실감 있어짐
+
+metalness: 0.3주면 광속느낌이 남
+
+이상태에서 normal을 빼보면 갑자기 입체감, 현실감이 다 없어지고 광속느낌만
+
+roughnessMap: roughnessTex로 적용해주면, normal을 없애보면 빛들어오는 부분이 벽돌 디테일(벽돌에 금이 가있는데 빛에 영향을 받는 느낌은 안나는데),
+roughnessMap을 하면 빛 들어올 때 벽돌에 흠에도 빛이 홈처럼 빛이 들어감, 시멘트 부분도 빛이 좀 다르게 들어감
+
+aoMap: ambientTex
+--> 그림자 부분을 어둑하게 해줌, 강도를설정가능
+--> aoMapIntensity : 10
+
+색깔을 넣으면,
+color:'red' 에도 적용이 됨
+
