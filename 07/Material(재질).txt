@@ -337,3 +337,51 @@ aoMap: ambientTex
 색깔을 넣으면,
 color:'red' 에도 적용이 됨
 
+
+
+------------------------------------
+environmentMap 
+
+ex14.js
+
+환경이라는 뜻인데, 주변에 뭔가 있는 것처럼 메쉬에 비치게 하는 것
+
+texture이미지가 필요해서, polyhaven.com에 가면 첫번째꺼 HDRIs에 가면 사방을 둘러쌀 수 있는 texture이미지를다운받을 수 있음
+Photo studio loft hall 거를 HDR로 선택 후 download
+
+hdr이미지를 열어보면 그냥 이미지가 열림,
+얘를 마인크래프트 스타일 블럭을 만들었던 것처럼, 각 면에 들어가는 면의 이미지를 6장으로 분리해줘야함
+
+--> hdr파일을 변환해줘야 함
+--> hdr to cubemap 에서 변환 가능, 전개도 형태로 나오게 됨, save를 누르면 옵션이 뜨는데, 전개도 형태, 6이미지 붙어있는 형태, 각각 따로 받을 수 있는 ㅇ ㅗㅂ션이 있는데 각각 따로 받아야함
+--> 압축 풀고 프로젝트 폴더의 textures/cubemap/ 에 붙여넣기
+
+지금까지 쓴 texture loader를 사용하지 않고 다른 애들을 사용
+new THREE.CubeTextureLoader();
+textureloader인데 cube형태로 로드해주는 애
+
+load하기 전에 폴더 경로를 세팅할 ㅅ ㅜ있음
+cubeTextureLoader.setpath('/textures/cubemap/')
+.load()
+
+load안에 배열을 넣고 textures이미지들을 순서대로 넣어주며 됨
+순서는 정해져 있음
++ - 순서, (다운 받은 이미지 이름이 nx ny nz px py pz로 되어있음,
+--> negative, positive
+한줄에 두개씩 쓸건데 xyz순서로,
+'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' 순서대로 쓰면 됨
+
+
+얘네를 material에서 envMap: envTEx를 넣어주면 되는데
+이렇게 하면 하얗게만 보임
+--> metalness, roughness를 좀 조정해줘야 함
+roughness: 0.1,
+
+큐브가 방 한 가운데에 거울로 비춰지는 것처럼 보임
+--> 나를 둘러싼 환경 안에 있는 것처럼 보이게 됨
+그게 비춰진게 mesh에 나옴
+
+meshBasic에도 적용을 하면, 느낌이 또 다름
+basic에서는 균일하게 보임, 어두운 부분 이런거 없이
+근데 meshBasic에서는 metalness, roughness가 자기 속성이 아니라고 뜸
+--> 얘를 없애주기
