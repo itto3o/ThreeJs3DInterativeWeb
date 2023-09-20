@@ -416,3 +416,47 @@ cubeTextureLoader로 만들어낸 큐브텍스쳐로 만들어 준 거를 바로
 
 material의 envMap도 cubeTExture로 적용
 --> 큐브에 보이는 면이 맞은편 배경에 있음(거울처럼 보임)
+
+
+-------------------------------
+Material에 Canvas 사용하기
+
+ex01.js를 save as해서 ex17.js
+
+캔버스 텍스쳐
+
+three.js에 구현한 것들도 모두 canvas에 그리고 있음
+이 canvas가 아니라 메모리 상에 다른 canvas를 생성해ㅓㅅ 이 캔버스를 material의 텍스처로 사용해볼 것
+three.js와 상관없이 원래 사용하던 canvasAPI를 사용해서 만드는 것
+여기서 애니메이션을 그리면 material에 나타나지는 그런 느낌
+
+texCanvas = document.createElement('canvas');
+canvas를 사용하려면 context객체가 필요함
+canvas에 그림을 그리려면 context객체를 사용해야함
+--> texContext = texCanvas.getContext('2d');
+
+textContex는 그림을 그리는 붓이 됨
+texCanvas.width = 500, height = 500(px)
+
+canvasTexture = new THREE.CanvasTexture(texCanvas);
+(속성이 적용된 canvas를 이용해서 texture를 만듦)
+
+얘를 material에 map: canvasTexture로 지정
+--> 아무것도 안보이게 됐는데, 색을 칠해주기
+
+draw()함수에 가서, texContext.fillStyle = 'green'; // 붓에 물감을 묻혀서
+texContext.fillRect(0, 0, 500, 500); // 캔버스에 찍는 느낌 (x, y, 사이즈)
+--> 6면에 모두 canvas가 그려짐
+400 400으로 한다면 좀 덜 칠해진 느낌이 남
+
+글자도 가능
+fillText('1분코딩', 200, 200);
+--> 글자가 너무 작음
+--> texContext.font = 'bold 50px sans-serif';
+
+애니메이션도 가능
+fillRect에서 x좌표를 0이 아니라 점점 증가하는 값으로 넣어주면 됨
+--> delta는 시간차라 일정하니까 그냥 경과시간(clock.getElapsedTime());으로 갖고오기
+--> 안움직임
+--> material의 속성 map을 canvasTexture로 해놨는데 update되는걸 true로 해줘야함
+--> draw함수 안에 material.map.needsUpdate = true;로 해주기
