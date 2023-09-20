@@ -385,3 +385,34 @@ meshBasic에도 적용을 하면, 느낌이 또 다름
 basic에서는 균일하게 보임, 어두운 부분 이런거 없이
 근데 meshBasic에서는 metalness, roughness가 자기 속성이 아니라고 뜸
 --> 얘를 없애주기
+
+-----------------------------------------------------
+skybox
+
+ex15.js
+
+evnmap이 이미지 자체가 큐브에 표현이 되고 주변이 환경으로 둘러싸인 것처럼 보이는데,
+skybox는 주변 자체, 배경 자체를 텍스처 이미지로 보여줌
+
+실제로 공간 안에 들어가 있는 느낌이 남
+배경을 만들어주는 것
+(mesh빼고 저 멀리 배경)
+
+3D같으면서 3D같지않은 이미지로 표현이 되는것들을 texture이미지로 도배를 해줌
+
+cubeTextureLoader 부분에서 material의 맵으로 쓰는게 아니라 다른 데에 사용할예정
+
+material에서 설정을 envTEx를 쓰는게아니라 그냥 기본 mesh로
+
+cubeTextureLoader부분을 없애고
+거기에 적혀있던 부분을 scene의 background부분에 넣을 것
+scene.background = cubeTextureLoader.setPath().load([...])
+
+여기에 mesh에 envMap을 해주면 비치면서 뭔가가? 될 예정
+--> ex16.js
+
+cubeTextureLoader로 만들어낸 큐브텍스쳐로 만들어 준 거를 바로 background = textureloader 이런식으로 해놨는데 이러지 않고
+맨 위에 const cubeTExture = cubeTExtureLoader;로 해서 만들어줌
+
+material의 envMap도 cubeTExture로 적용
+--> 큐브에 보이는 면이 맞은편 배경에 있음(거울처럼 보임)
