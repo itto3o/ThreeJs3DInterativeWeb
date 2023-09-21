@@ -1,0 +1,61 @@
+readme의내용을 npm으로 설치
+
+이대로 npm start를 해서 보면 축은 보이는데 mesh가 안보임
+(light가 없기 때문)
+
+ex01.js부터 사용,
+
+Light부분에
+ambientLight먼저 추가
+: 그냥 전체적으로 은은하게 깔아주는 조명, 입체 형태로 그림자가 생긴다거나 그런거 없이, 단색으로 입체감을 표현
+이거 하나만 단독으로 쓰는 경우는 잘 없고, 이걸 기본으로 깔고 다른 light를 추가하는 형태로 많이 씀
+전체적으로 은은하게 깔아주는 조명이기 때문에 위치가 따로 없음
+
+두번째 매개변수에는 빛의 광도를 넣어줄 수 있음(default는 1)
+
+ambientLight = new THREE.AmbientLight('white', 0.5)
+scene.add(ambientLight)
+
+--> 메쉬가 보임
+입체인데 그냥 평면으로 보임
+meshStandard인데도.. 원래는 빛을 쐈을때 shadow가 다르고 그랬는데 ambient는 그냥 은은하게 전체적으로 비춤
+광도를 1로 바꾸면 밝아짐
+
+mesh를 여러개 추가
+material3개, geometry3개
+box와 plane(바닥에 까는 용도)
+sphereGeometry도
+
+scene.add(plane, box, sphere) 이런 식으로 한번에 여러개 메쉬 추가
+
+plane이 큰 애가 있어서 하얀화면처럼 보임
+--> 얘가 바닥역할을 하도록 x추글 기준으로 90도 회전이 필요함
+--> plane.rotation.x = -Math.PI * 0.5(pi는 180도니까)
+--> 바닥을 눕힘
+
+sphere box가 0, 0자리에 겹쳐있어서 position변경
+
+이후 음영 추가
+여태 썼던 directional light 추가
+
+light = new THREE.DirectionalLight('white', 0.5);
+light.position.y = 3;
+scene.add(light);
+얘는 태양광처럼 생각함, 전체적으로 다 뿌려짐
+그림자를 줄만한 것들이 있으면 전부 다
+그림자 설정은 따로 해줘야함
+빛이 추가는 됐는데 어디있는지 잘 모르겠음
+position.y = 3으로 ㅈ정해줬었는데, default는 1임
+0으로 해주면 좀 달라짐(빛이 내려가서?)
+
+light위치를 잘 모르겠어서 시각적으로 확인하려고 함
+--> LightHelper가 이승ㅁ
+
+const lightHleper = new THREE.DirectionalLightHelper(light);
+를 하고 scene에 추가하면
+시각적으로 light가 어디있는지 딱 보임
+gui만들어둔게 있으니까 빛의 위치를 이걸로 바꿔보기
+
+gui부분에 카메라가 아니라
+light.position, 'x', -5, 5로 해주면됨
+light가 움직이면서 헬퍼도 움직이는데, 이에 따라 메쉬의 그림자가 달라짐
