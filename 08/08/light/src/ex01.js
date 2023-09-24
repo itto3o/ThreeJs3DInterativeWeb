@@ -32,7 +32,7 @@ export default function example() {
 	const ambientLight = new THREE.AmbientLight('white', 0.5);
 	scene.add(ambientLight);
 
-	const light = new THREE.DirectionalLight('white', 0.5);
+	const light = new THREE.DirectionalLight('red', 0.5);
 	// light.position.x = -3;
 	light.position.y = 3;
 	scene.add(light);
@@ -81,7 +81,11 @@ export default function example() {
 	const clock = new THREE.Clock();
 
 	function draw() {
-		const delta = clock.getDelta();
+		// const delta = clock.getDelta();
+		const time = clock.getElapsedTime();
+
+		light.position.x = Math.cos(time) * 5;
+		light.position.z = Math.sin(time) * 5;
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);
