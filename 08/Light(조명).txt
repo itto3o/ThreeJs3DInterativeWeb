@@ -82,3 +82,97 @@ light.position.z = Math.sin(time);
 --> cos로 x축을 움직이고, sin으로 z(앞뒤) 로 움직임
 a가 1을 유지하면서 알파가 점점 늘어나면 직각 삼각형이 점점 높아지고, 이걸 다 하면 원을 그려지게 됨
 (x축은 짧아지고 y는 길어짐)
+
+
+
+---------------------------------
+그림자(shadow) 처리하기
+
+ex02.js
+
+
+Light와 shadow
+
+
+renderer.shadowmap.enabled = true;로 설정을 해줘야함
+바로 그림자가 생기는건 아니고, 조명에서, 각각의 물체에서 설정을 해줘야함
+
+기본적으로 두가지 세팅
+: 다른 물체의 그림자가 생기기에 영향을 줄건지를 --> castShadow,
+영향을 받아서 나한테 그림자가 생기게 할건지는 missedShadow임
+
+light에 castShadow = true;로 하면, 이 빛은 그림자를 만들 수 있는 빛이 됨
+mesh에도 해줘야하는데
+이 두 물체의 mesh에는 내가 영향을 줘서 아래에 있는 plane에 그림자가 생겨야 하니까 mesh는 castShadow가 true여야,
+plane은 영향을 받아서 나한테 그림자를 그려야하니까 receive shadow로
+이 두 mesh끼리도 서로 영향을 줘서 그림자를 만들 ㅅ ㅜ있다면 둘다 receive해야함
+
+
+plane은 cast일 필요 없음
+box는 cast, receive도 true
+sphere는 castShadow, receiveShadow도 true
+
+
+그림자 관찰 위해 애니메이션 멈춤,
+그림자를 살펴보면, 그림자가 좀 깨져보임(퀄리티가 좋지 않아)
+--> light.shadow.mapSize.width = 512; // 기본값이 512, 그림자가 그려지는 판의 크기
+light.shadow.mapSize.height = 512;
+
+크기가 클수록 해상도가 높아짐
+10만정도로만 해도 정말 버벅거림
+1024,2048 정도가 무난
+
+그림자를 부드럽게 퍼지게 하고 싶다면 blur효과 설정 가능
+light.shadow.radius = 5;  --> 뿌옇게 흐려짐
+그외에도 그림자 형태 자체를 조정할 수 있음
+--> renderer.shadowMap.type = THREE.PCFShadowMap 이 기본값
+얘를 THREE.BasicShadowMap으로 하면 그림자가 좀 더 안티앨리어싱이 사라지면서 픽셀화처럼 거칠어짐
+그래픽 디자인 스타일에 따라서 일부러 살리는 경우도 있음
+basic이 성능이 제일 좋음
+
+느낌을 픽셀화로 더 하고 싶다면
+shadowMapSize를 극단적으로 줄여주면 픽셀 자체가 크기가 커짐
+16으로 한다면 너무 작으니까 원이 네모처럼 그림자가 그려짐
+
+64로 해두면 마인크래프트 처럼 그렇게 디자인 스타일을 조정할 수 있음
+
+PCFSoftShadowMap : 기본의 PCF보다 좀 더 Soft함 퀄리티가 더 좋음, 부드럽게 처리해주지만 성ㄴ응은 좀 떨어짐
+맞춰서 세팅을 적당히해주면됨
+
+light.shaodw.radius를 15로 바꿔주면 부드러움 처리 안된 것 같음
+--> soft를 비활성화 시키면
+블러처리가 확실히 된 것처럼 보임
+
+basic도 블러처리가 적용이 안됨, pcfsoft도 안됨
+radius로 블러처리를 한다면 기본값으로 놔두면됨
+
+3차원 공간에서 그림자를 어디까지 처리해줄건지 정해줄 수 있음
+거리로
+plane바깥에는 고려를 안했는데, 그림자 처리도 plane까지만 처리를 해주면 됨
+모든 공간에서 그림자를 고려하면 성능 악영향을 끼칠수도
+--> 카메라를 near, far를 설정해서 우리 눈에 범위를 설정하는 것처럼
+그림자에 관련한 카메라에도 그걸 설정해줄 수 있음
+
+light.shadow.camera.near = 1;
+light.shaodw.camera.far = 10;
+--> 티가 안남
+x위치를 조정하면
+--> 그림자가 잘림 --> 범위를 넓혀가며 조정을 하면 됨
+예를들어 광원이 멀리 간다면 그림자가 길어지니까 ㅇㅇ near far도 설정을 해주면 성능에 도움이 됨,
+대신 좀 널널하게 잡아주기
+
+
+----------------------
+pointLight
+
+이제 ambientLight외에 다른 종류의 light
+ex03.js PointLight
+
+지점에서 사방으로 퍼지는 전구같은 light, 전 방향으로 퍼짐
+생성자 : 색깔, 빛 세기, 거리(빛이 영향이 미치는 최대 거리, default는 0(무한)), decay : 거리에 따라 빛이 얼마나 어둡게 할지(default는 1, 물리적으로 좀 제대로된 느낌을 표현하려면 2로 설정)
+
+PointLight('white', 1, 2, 2);, lighthelper도 pointLightHelper로 고치기
+2 : 거리니까 거리가 2인데 mesh는 다른 곳에 있다면 빛이 영향을 못미침
+decay 2 : 커질수록 어둑어둑해짐
+
+draw함수에서 원운동 시켯던거 다시 풀어보면 원운동함
