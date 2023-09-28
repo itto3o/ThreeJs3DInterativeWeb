@@ -223,3 +223,21 @@ ambient로 섞으면 좀 더 다른 느낌이 남
 
 헬퍼를 보면 색이 섞여있는게 표시됨
 
+
+
+-----------------------
+RectAreaLight
+
+rect는 사각형, 사각형 영역에서 뿜어져나오는 조명
+
+처음에 색깔, 강도, 영역의 크기(2, 2)
+
+x위치 x, y는 2, helper는 주석처리
+--> rect부분만 쏴짐
+
+helper도 살려보면, 에러가 뜸
+rectArea 헬퍼는 기본적으로 포함이 안되어 있어서
+import {RectAreaLightHelper } from '
+--> 직접 가져온거라 three를 쓰면 안돼서
+
+helper를 보면 2 x 2사이즈의 판이 생김
