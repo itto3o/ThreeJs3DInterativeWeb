@@ -176,3 +176,20 @@ PointLight('white', 1, 2, 2);, lighthelper도 pointLightHelper로 고치기
 decay 2 : 커질수록 어둑어둑해짐
 
 draw함수에서 원운동 시켯던거 다시 풀어보면 원운동함
+
+
+------------------------------
+SpotLight
+
+ex04.js
+
+원뿔모양으로 빛이 쏴지는것
+
+주인공만 조명을 뿌려주는 것
+
+light = new THREE.SpotLight
+색깔, 강도, 최대 거리, 각도가 있음(원뿔이다보니까 원뿔의 범위, 라디안 값)
+최대거리는 10정도로 해도 될 것 가틈, 최대 거리에 따라 빛 강도도 느낌이 달라짐
+
+애니메이터를 멈춰보고
+spotLightHelper로 보면 원뿔모양처럼 생김
