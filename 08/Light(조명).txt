@@ -193,3 +193,33 @@ light = new THREE.SpotLight
 
 애니메이터를 멈춰보고
 spotLightHelper로 보면 원뿔모양처럼 생김
+
+
+------------------------------
+HemisphereLight
+
+AmbientLight와 비슷하게 은은하게 뿌려줌
+--> ambientLight를 주석처리 함
+색상, 강도 설정
+색깔을 두가지로
+'pink', 'lime', 1
+
+--> mapSize에서 오류가 많이 남
+그림자가 없는 애라서, mapSize부분을 없애, camera도
+castShadow도 모두
+
+--> lightHelper 색깔도 두가지임
+
+mesh 색깔도 모두 white로 바꾸기
+light도 위치를 0 0 0으로 바꾸면
+y만 2로 해보면
+하늘에서는 pink가 쏘고 바닥에서는 lime색을 쏨
+하늘과 땅에서 동시에 빛을 쏘는 느낌이 남
+
+좀더 은은하게 하고싶다면
+강도를 0.5로 줄이기
+
+ambient로 섞으면 좀 더 다른 느낌이 남
+
+헬퍼를 보면 색이 섞여있는게 표시됨
+
