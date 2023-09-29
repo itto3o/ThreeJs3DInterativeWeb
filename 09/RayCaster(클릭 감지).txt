@@ -1,0 +1,62 @@
+RayCaster의 동작 원리
+
+레이는 엑스레이할때 광선,
+
+광선은 무한한 직선, mesh에 맞는데, 맞았다면 관통을해서 맞았다고 인지가 됨
+
+--> mesh가 두개있다면 걔네 둘다관통함
+--> ㅇ걸로 클릭을 감지할 수 있음
+
+카메라에서 광선을 쏘고, mesh를 통과하면 클릭됐다고 판정을 함,
+mesh들이 겹쳐있다면 둘다 선택이 됨
+만약에 앞에 있는 것만 선택을 하고 싶다면 mesh 하나를 맞은 순간에 그만둘 수 있음
+
+threejs 자체가 canvas판에서 그림으로 그려지는 거라 dom이런게 없음,
+ray를 casting한다고 해서 레이캐스터라고 부름
+
+
+----------------------------
+준비 - Line으로 선 마들고 메쉬 배치하기
+
+npm 으로 설치
+
+특정 방향의 광선에 맞은 mesh 판별하기
+임의의 위치에 임의의 길이로 광선을 쏘고 메쉬가 맞았는지 안맞았는지
+
+광선을 시각적으로 그려야함
+geometry로 광선을 표현한다는 뜻
+
+실제 광선은아니고 raycaster에서 쏘는 광선은 보이지 않기 때문에 어디로 지ㅏㄴ는지 시각적으로 보이도록 raycaster에서 쏘는 광선이랑 똑같은 위치에 geometry로 광선을 그린다는 의미
+
+lineMaterial = new THREE.LineBasicMaterial({color : 'yellow'});
+선 모양 geometry 만들기
+bufferGeometry라는ㄱ ㅔ있는데, 얘는 미리 모형이 만들어져있지 않고 임의로 포인트를 설정해서 그 포인트를 이어주면서 geometry형태를 만들어줄 수 있음
+직선은 점과 점의 이은 선이니까 점 두개가 있어야함
+const points = [];
+
+점 두개 위치를 points에 넣기
+points.push(new THREE.Vector3(0, 0, 100));
+화면 바깥쪽이 되고, 화면 안쪽으로 하려면 -100
+
+lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+배열에 들어있는 점들의 위치를 기반으로 geomtry가 세팅이 됨
+new THREE.Line(lineGeometry, lineMaterial);
+
+평면상에서 아래로 가는 것처럼 보이지만
+화면 저 깊숙한 곳으로 쏘는 것
+
+카메라 위치를 바꾸면 올라가ㅡㄴ 것처럼 보임
+
+boxGeometry도 하나 추가하기
+torus geometry도 하나 더(도너츠 형태)
+생성자에 반지르,ㅁ 두께, segment)
+
+
+OrbitControls도 추가하기
+
+--> box는 맞았고, torus는 안맞음(가운데가 뚫려있어서)
+meshes 배열에 두개 넣기
+
+얘네를움직이게 하면서 광선에 맞았는지 체크할 건데, 배열에 넣어놔야 체크하기가 쉬움
+
+
