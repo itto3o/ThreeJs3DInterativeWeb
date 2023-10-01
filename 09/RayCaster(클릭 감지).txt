@@ -60,3 +60,66 @@ meshes 배열에 두개 넣기
 얘네를움직이게 하면서 광선에 맞았는지 체크할 건데, 배열에 넣어놔야 체크하기가 쉬움
 
 
+
+----------------------------------------
+특성 광선을 지나는 메쉬 체크하기
+
+raycaster를 만들어줘야함
+THREE.Raycaster();
+
+draw함수 안에서 const origin = 위치필요, 위에서 노란 선을 만들어놨으니까 (출발점)
+노란 선과 위치를 똑같이 만들어주기
+
+위치ㅡㄴ 0,0,100 / 0,0,-100
+raycaster는 origin(시작 위치), 방향을 정해주면 됨
+origin = new THREE.Vector3(0,0,100);
+direction = new THREE.Vector3(0, 0, -1); (정교화된 방향, 1단위로 만든 방향)
+방향이니까 제트로 -100방향이나 -1방향이나 똑같으니까 -1만 써주기
+얼마나 더 가냐마냐니까
+
+raycaster.set(origin, direction);
+--> 광선 세팅 완료, 확인을 해봐야 하는데
+
+콘솔에 맞았다는걸 출력
+raycaster.intersectObjects(meshes);
+--> 배열에 있는 메쉬들로 체크를함
+--> 2라고 나오는데, 박스는 맞았는데, torus는 안맞는 중임
+--> raycaster는 면을 기준으로 체크해서, 박스는 앞면 뒷면 둘다 맞아서 2라고 나옴
+boxMesh.name = 'box';
+torusMesh.name = torus
+
+
+intersects.forEach(item => {
+	console.log(item);
+});
+--> foreach문으로 돌면서 name을 출력
+item에 object에 mesh가 들어있음, 그 안에 name에 있어서
+item.object.name을 출력
+--> box만 통과
+
+item.object.material.color.set('red);
+--> 맞았다면 빨개져라 --> 박스만 빨개짐
+
+움직이는 상황에서도 잘 체크가 되는지확인
+
+box, torus의 y포지션에 sin 적용
+delta말고 elapestedTimeㅇ로
+둘다 움직이게 함
+--> 둘다 빨개짐
+
+원래색으로 복구해주기
+draw함수는 원래 반복이 되니까 그 함수 안에 원래 색으로 돌려주는 코드를 넣으면 됨
+
+방향을 1이 아닌 -100으로 하면,
+raycaster가 동작을안함
+100으로 하고 싶다면, direction.normalize();를 통해정규화를 시켜줘야 함
+
+전후를 비교해보기 위해 console에 출력해보면
+direction.length()를 출력하면
+100은 길이가 100이고, 정규화 후에는 길이가 1로 줄어듦
+
+방향은 맞지만 정규화를 해서 바꿔주야 하는데
+그냥 -1로 해주면 됨
+
+정규화 자체를 잡기가 어려운 경우가 있을 때에만 정규화를 하면 됨
+(x, y, z모두 다른 숫자가 들어가 있는 경우)
