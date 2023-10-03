@@ -232,3 +232,34 @@ mousedown시점, mouseup시점의 차이를 봐서 몇 초 이상이면 클릭�
 0.5초 이내에 떼야함(timeGap > 500)
 
 클릭이 됐다면 무언가 반응이 일어나도록 하기(빨개지도록)
+
+
+-----------------------------
+드래그 클릭 방지 모듈로 만들기
+
+다른 데서도 공통으로 쓸 수있을 것 같음
+--> 따로 모듈로 빼기
+
+통째로 
+PreventDragClick.js를 파서 class 생성, constructor 생성
+처음에 이 클래스가 생기면 mouse이벤트가 생성되게
+
+앞서 코딩한 부분을 생성자에 붙여넣기
+
+mousemoved변수를 T/F를 판별해서 raycaster쪽에서 사용하는데, 그러면 외부에서 사용이 가능해야함
+--> preventDragClick 클래스의 속성 인스턴스로 만들어주기
+
+맨 위에 import { PreventDragClick } from './PreventDragClick'
+
+const preventDragClick = new PreventDragClick();
+이스턴스 객체의 속성으로 하기ㅗㄹ 했으니까 mouseMoved를 앞에 preventDragClick. 을 붙여주기(멤버 변수로 사용할 거라)
+
+let으로 만드는게 아니라 this.으로 만들어주기
+다른 애들은 내부에서만 사용할거라 let으로 만들어줘도 됨
+
+this.를 붙이면 외부에서 접근도 가능
+canvas가 뭔지 모름, canvas는 ex02.js에서 const canvas = document.querySelector('#three-canvas'); 였음
+--> 범용성있게 만들면 좋으니까 호출할때 canvas를 넣어서 호출하기
+--> 생성자안에 들어올테니까 elem으로 변해서 들어옴
+
+--> 여기에 이벤트 바인딩
