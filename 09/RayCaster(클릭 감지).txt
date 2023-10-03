@@ -193,3 +193,42 @@ import { PreventDragClick } from './PreventDragClick';
 mouse.y에 -를 안붙여놨었던 오류였다. 
 (근데 -를 붙이니까 box를 선택하면 torus가 나온다...)
 + clientY인데 clientX로 해놨던 오류..
+
+
+--------------------------
+각도를 드래그해서돌려보면 torus에서 마우스를 놓으면 torus가 클릭됐따고 나옴
+--> 문젝 ㅏ됨
+뗄 때 그 위치가 체크가 됨
+클릭을 할때마다 다른 액션을 취해야하는 그런거라면 치명적일 수 있음
+--> 고쳐줘야
+
+마우스 이벤트를 이용해서 마우스의 드래그가 일정 픽셀 일어나면 raycaster를 안하는 걸로 바꾸기
+
+canvas.addEventListener('mousedown' e => {});
+startX, Y를 위치를 넣어주고
+mouseUp도 이벤트를 등록해서 100픽셀 이동하고 뗐다면 그 위치랑 startX Y와 차이를 보기
+차이가 났다면 드래그, 안났다면 클릭
+
+xGap = e.clientX - clickStartX
+방향에 따라 -가 나올수도 있어서 절대값을 씌워주면 됨
+--> Math.abs()에 넣기
+
+만약에 xGap > 5(px)거나 y도 5보다 크다면 (대각선도 하고싶다면 피타고라스)
+mouseMoved = true; --> click이 아닌걸로 판명
+얘를 가지고 raycasting부분에서 함
+
+checkIntersects 함수 앞부분에서 if(mouseMoved) return; 해주면 됨
+--> 드래그하다가 torus부분에서 마우스를 떼도 안뜸
+
+이제 문제는 움직였다가 원위치로 다시 돌아와서 마우스를 뗄 경우엔 여전히 뜸
+--> 시간을 추가하면 됨
+클릭을 시작한 시점에서 뗀 시점까지 특정 시간이 지났다면 클릭판정을 안하는 걸로
+--> 그럼 그냥 이렇게 하면 되는게 아닌가..? 흠...
+
+let clickStartTime;
+ = Date.now(); (얘도 계속 증가하는 값)
+mousedown시점, mouseup시점의 차이를 봐서 몇 초 이상이면 클릭한게 아니다.
+
+0.5초 이내에 떼야함(timeGap > 500)
+
+클릭이 됐다면 무언가 반응이 일어나도록 하기(빨개지도록)
