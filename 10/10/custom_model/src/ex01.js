@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // ----- 주제: glb 파일 불러오기
 
@@ -40,6 +41,15 @@ export default function example() {
 	const controls = new OrbitControls(camera, renderer.domElement);
 
 	// gltf loader
+	const gltfLoader = new GLTFLoader();
+	gltfLoader.load(
+		'/models/ilbuni.glb',
+		gltf => {
+			// console.log(gltf.scene.children[0]);
+			const ilbuniMesh = gltf.scene.children[0];
+			scene.add(ilbuniMesh);
+		}
+	)
 
 	// 그리기
 	const clock = new THREE.Clock();
