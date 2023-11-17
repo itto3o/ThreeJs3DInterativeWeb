@@ -590,3 +590,35 @@ gltf.scene.childeren[0]은 object 3D객체임
 )
 
 얘는 메쉬기 때문에 그림자설정을 해야한다 그러면 castTo도 똑같이 설정 가능
+
+
+-----------------------------------
+커스텀 모델 애니메이션
+
+ex02.js
+
+애니메이션 불러왹
+블렌더에서 만들었던 애니메이션, mixer라는걸 새성해야함
+new three.AnimationMixer(ilbuniMesh); 일분이 메쉬를 넣어주면
+gltf.animations[1] <-- 얘로 만들수있고,
+actions로 배열을 만ㅇ들어서 관리
+actions[0] = mixer.clipAction(gltf.animations[0]);
+이런 식으로 넣어주기, mixer의 clipAction을 실행한 후 반환값을 넣어주는 것
+actions[0].play();를 하면 할 수 있음,
+--> 그런데 반응이 없음
+--> draw()에서 해줘야하는데, mixer객체는 gltf load함수 안에서 정의가 되어 있음
+--> 접근x, 밖에서 let으로 mixer를 선언하기
+
+이후 mixer.update(delta);
+--> 그런데 에러가 남, mixer가 아직 없어서
+--> gltf 자체는 외부 리소스라 load하는데 시간이 필요함
+그래서 load가 끝나면 안에서 animationMixer가 생성이 되는데
+draw를 할때는 없는 상태
+--> draw내에서 if(mixer) 라면 update하면 됨
+--> 일분이가 애니메이션 실행함
+
+animation play할때 옵션 조정
+
+반복횟수 지정 가능, repetitions = 1; 이라고하면 한번 반복하고 멈춤
+--> 2번하고 원래 포즈로 돌아가버리는데, 애니메이션이 끝난 후나 시작 포즈로 멈추게 하고 싶을 수 있음
+--> .clampWhenFinished = true; 라고 하면 끝난 포즈 그대로 멈춰있음
