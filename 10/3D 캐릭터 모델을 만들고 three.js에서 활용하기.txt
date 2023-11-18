@@ -622,3 +622,71 @@ animation play할때 옵션 조정
 반복횟수 지정 가능, repetitions = 1; 이라고하면 한번 반복하고 멈춤
 --> 2번하고 원래 포즈로 돌아가버리는데, 애니메이션이 끝난 후나 시작 포즈로 멈추게 하고 싶을 수 있음
 --> .clampWhenFinished = true; 라고 하면 끝난 포즈 그대로 멈춰있음
+
+
+
+------------------------------------
+애니메이션 과정 복습
+
+가끔 애니메이션이 한개만 저장된다는 사람이 있어서
+한 번 더 빠르게 보여주려고 함
+
+카메라, light 지우고
+큐브선택 후 tab으로 edit모드, shift+A 로 하나 더 추가, g x로 x축 기준 이동, 이동할때 ctrl를 누르면 스냅으로 이동 가능
+숫자 3누른 후 두번째에 l누르면 얘만 선택 가능,
+s, y z로만 줄이도록(shift x)
+
+object모드로 나와서 shift+A로 아마추어의 single bone추가, 뷰포트 디스플레이에 infront체크
+뼈 선택후 tab으로 edit모드, 정면뷰에서 뼈 선택 후 s눌러서 스케일 조정, shift+A로 뼈 하나 더 추가,
+g x 눌러서 이동, r, y로 평행하게 
+
+object모드에서 뼈대랑 메쉬랑 연결
+메쉬 먼저 추가, shift+뼈대 선택 ㅎ ㅜ ctrl+P set parent TO With Automatic Weights로 가까운애들을 연결해줌
+pose Mode에서 애니메이션 만들고,
+패널 열어서 타임라인을 열고 Dope Sheet를 Action Editor를 함
+
+new 눌러서 Action1이름, key frame을 넣어주고 애니메이션 만들어주기
+default에 a눌러서 전체선택, i눌러서 키프레임 넣기
+24프레임(1초동안)에 팔을 올리는 애니메이션, r, y 후 A로 선택 후 i눌러서 key frame추가
+
+New Action으로 Action2를 만들기
+A로 전체선택을 해보면 Action1에서 만들었던 애니메이션들이 모두 살아있어서 얘를 모두 Delete,
+12프레임쯤에ㅓㅅ g, x로 이동
+A눌러서 전체선택, i눌러서 key frame
+다시 돌아가ㅡㄴ 거는 선택 후 shift+D로 복제 후 옮기기
+
+Action1을 선택하면 Action2앞에 0이 붙어있는데, 이상태로 저장을 하면 날라가버릴 수 있음
+숫자 0의 의미는 저장할때 없어진다는 의미,
+action2를 선택하면 둘다 0이 없음
+--> 이상태에서 저장해야함
+
+하나 더 추가해서 해보면,
+ACtion3이 되었고, 몸통을 움직여보기, g, z로 위로 움직이기
+A, i로 키프레임 추가
+처음꺼 shift+D로 복제 후 넣어주기
+
+Action2를 선택하면 0 Action3이 되어있음, --> 저장할 때 Action3이 날라감, --> Action3을 선택후 저장해야함
+
+패널에서 NonLineal Animation 선택, 여기에 저장한 액션들이 보임
+Action3은 아직 넣어지지 않았어서, Action3옆의 추가 버튼을 눌러서 트랙에다 추가해준 후 export를 함
+object모드로 가서 메쉬를 선택한후 메쉬만 export
+gltf로 만들어주기 text.glb
+include로 selected objects 선택
+--> three.js에 불러와지는지 확인
+gltf.animations에 3개가 잘 저장되어있는지 확인
+
+
+
+--> 지금 하는 대로 하면 애니메이션 저장이 안되어서 나옴,
+그래서 수강자 리뷰보니까
+1. 애니메이션마다 방패 모양 체크 --> shild는 실패
+2. export때 뼈대까지 선택해서 export --> AllSelect하니까 001의 임시파일까지 모두 불러와짐, 이거 해결법은 없을까..?
+3. export창에서 animation섹션의 animation mode를 NLA Tracks로 설정 --> 얘는 안됨
+
+2.에서 NonLinear Animation패널에서 추가 삭제하니까 <-- 여기에 추가된 애들만 나오긴함, push down으로 해결 할 수 있는듯?
+--> 근데 순서가 ㅋㅋㅋ 이상해졌네
+track ordering으로 순서 변경 가능
+
+무튼, 정리하면
+애니메이션은 A로 뼈대까지 포함해서 export해야하고,
+더 자세한 수정(임시파일 넣을지말지, 순서 어떻게할지)ㅡㄴ NonLinear Animation패널에서 가능!

@@ -46,7 +46,7 @@ export default function example() {
     let mixer;
 
 	gltfLoader.load(
-		'/models/ilbuni.glb',
+		'/models/test.glb',
 		gltf => {
 			// console.log(gltf.scene.children[0]);
 			const ilbuniMesh = gltf.scene.children[0];
@@ -54,12 +54,14 @@ export default function example() {
 
             mixer = new THREE.AnimationMixer(ilbuniMesh);
             const actions = [];
+			console.log(gltf.animations);
             actions[0] = mixer.clipAction(gltf.animations[0]);
             actions[1] = mixer.clipAction(gltf.animations[1]);
-            actions[0].repetitions = 2;
-            actions[0].clampWhenFinished = true;
-            actions[0].play();
+            actions[2] = mixer.clipAction(gltf.animations[2]);
+            // actions[0].repetitions = 2;
+            // actions[0].clampWhenFinished = true;
             // actions[1].play();
+            actions[2].play();
 		}
 	)
 
