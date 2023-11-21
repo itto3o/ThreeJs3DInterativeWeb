@@ -43,7 +43,8 @@ export default function example() {
 	// gltf loader
 	const gltfLoader = new GLTFLoader();
 	gltfLoader.load(
-		'/models/ilbuni.glb',
+		// '/models/ilbuni.glb',
+		'/models/roncho.glb',
 		gltf => {
 			// console.log(gltf.scene.children[0]);
 			const ilbuniMesh = gltf.scene.children[0];
