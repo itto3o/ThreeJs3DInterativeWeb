@@ -706,3 +706,6 @@ track ordering으로 순서 변경 가능
 
 다른 사이트도 여러개 있음
 animation이 포함된 애들도 있을텐데 ex02.js에서도 테스트해보기
+
+
+엥 깃헙에 푸시했는데 commit은 됐는데 contribution에 기록이 안되는데..?
