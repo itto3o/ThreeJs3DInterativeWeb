@@ -241,3 +241,54 @@ iron은 쇠공이라 하나도 안튀겨야함
 
 상황에 맞게 contact 설정을 해줄 수 있음
 필요없으면 default만 세팅해서 써주면 됨
+
+
+------------------------------
+힘(Force)
+
+ex03.js
+힘이 작용하면 밀려남, 물체의 위치에 영향을 줌
+
+코드가 길어져서 contact는 default만 사용하도록
+spherebody도 defaultMaterial로
+
+아무데나 클릭하면 바람이 불도록 하기
+canvas.addEventListener('click', () => {
+sphereBody.applyForce(new CANNON.Vec3(-100, 0, 0), sphereBody.position);
+}
+
+vector에 힘의 방향과 크기를 넣어주기 왼쪽이면 -x쪽임, -100만큼의 힘
+이 힘을 어디에 적용할 것인지
+sphere에 적용해야하는데 position이 변해야함
+공의 위치를 그대로 써주기(얘도 vector니까)
+
+드래그 했을 때는 클릭 안되게 하기
+(orbitControls를 사용하고 있어서 카메라 각도를 바꿀때도 클릭이 되어서
+raycaster때 했던 그 안에 src/preventDragClick.js를 카피해서 폴더에 붙여넣기
+이후 import {PreventDragClick} from './PreventDragClick';
+const PreventDragClick = new PreventDragClick(canvas); 
+--> canvas가 드래그 됐을 때 클릭방지니까
+
+그리고 클릭했을 때 드래그가 됐으면 위의 applyForce를 안할거니까
+click이벤트 코드에
+if(preventDragClick.mouseMoved) return;
+
+방향 바꿔보기 50, 300, 0으로 하면 위로 떠올랐다가 중력에 의해서 다시 내려옴(점프하는 느낌)
+클릭을 여러번 하면 갑자기 막 빨라짐(힘이 누적돼서)
+누적이 안되게 하려면 속도를 0으로 만들어주면됨
+sphereBody.velocity.x = 0;
+y, z도
+angularVelocity x,y,z도 0으로 해줘야함
+
+계속 가는 공을 멈추려면?
+draw함수에서 계속 반복하고 있으니까
+draw함수에서 velocity를 조절해주면 됨, 계속 깎아먹도록
+위에 velocity들을 0으로 해줬던 코드를 긁어와서
+draw함수에 넣고, 0이 아니게 해줌(0이면 멈춘다는 의미니까)
+*= 0.98을 곱해주기(1보다 작은 숫자들을)
+점점 누적돼서 점점 작아지니까 점점 0에 수렴하게 됨
+--> 점점 멈춰짐, 자연스럽게 멈춰짐
+
+너무 약하면 힘을 조절해서 -500으로
+힘이 필요한 순간에 해주면 됨
+충돌이 아니라 바람이 부는 자연스러운 현상에서는 applyForce를 유용하게  활용 가능
