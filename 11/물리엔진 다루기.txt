@@ -382,3 +382,28 @@ shperes.push(new MySphere()); 이런 식으로 mysphere을 만들때마다 push
 
 클릭할때마다 애들이 나와서 떨어짐
 코드 스타일 자체를 입혀보기
+
+
+
+---------------------------
+성능 관리 설정
+
+2가지 체크,
+cannonWorld.allowSleep = true;하면 보기엔 똑같은데
+충돌을 하다가 결국엔 거의 멈출텐데, 그런 상태가 되면 test를 안함
+(충돌 체크 같은걸) 움직이는 와중엔 해야함
+멈출때에도 계속 테스트는 하고 있음, 더이상 test가 의미없다면 allowSleep을 하면 됨
+주의할 것은, 게임은 멈춰있더라도 계속 체크를 해줘야함, --> allowSlepp을 해두면 나중에 주인공이 와서 뭘 했는데 반응을 안할수도
+--> 이 설정을 true로 할 것인지 판단을 먼저 한 뒤에 해줘야 함
+
+2번째는
+cannonWorld.broadphase = new CANNON.SAPBroadphase(cannonWorld); // 제일 좋은 거
+성능이 좀 더 좋음,
+적절히 효율적으로 타협하는 애
+퀄리티 저하 없고 퍼포먼스 잘 나오는
+
+broadphase에는 NaiveBroadphase (기본), GridBroadphase9(4개의 구역으로 나눠서 테스트가 필요한 쪽을 테스트 함)가 있음
+SAPBroadphaase가 제일 좋음
+
+이거 왜 드래그 했는데 클릭 인식하지 흠
+아 ex03.js에서 했던 것처럼 클릭 이벤트에서 dragflag가 true일때 return을 안해줘서 그렇구나
