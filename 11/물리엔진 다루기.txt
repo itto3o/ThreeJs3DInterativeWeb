@@ -464,3 +464,41 @@ velocity를 출력해보면, 9 > 2 > 0 으로 줄어듬
 3보다 클 경우에만 사운드 플레이 되게
 
 favicon.ico가 없다고 뜨는데 무시해도됨
+
+
+--------------------
+오브젝트제거하기
+
+ex06.js
+
+생성된 메쉬들을 활용해서없애기
+
+화면에 공들을 만든다음에
+버튼을 누르면 얘네가없어지도록
+--> 버튼은 html에 넣어도되는데 html은 다른 파일에서도 공통으로사용하니까 건드리지 말고
+js에서 버튼만들고 조립하기
+
+btn.style.cssText = 'position: absolute' 
+cssText로
+document.body.append(btn);
+로 조립
+
+버튼에 click이벤트 바인딩, 익명함수로 넣기
+생성된 공들을 삭제하려면 spheres에 push해서 넣어놨으니까 그거 활용
+
+foreach(item => {
+scene.remove(item.mesh);
+
+--> item으로 mesh를 접근할수있는 이유는 MySphere 클래스에서 this.mesh = new Meh();로 .mesh로 속성으로 넣어놔서 .mesh로 접근이 가능
+여기에 cannonJs로 물리엔진을 적용해놨는데 얘네 관련한것도 모두 없애기, 메모리를 점유를 하고 있어서
+
+cannonWorld.removeBody(item.cannonBody);
+
+원래 collide 이벤트를 바인딩해놓기
+
+이벤트를 등록해놓은것도 다 메모리를 차지하는 일
+--> 그래서 얘네도 remove를 해줘야함
+
+item.cannonBody.removeEventListener('collide', collide);로 제거해주면 됨
+
+--> 깨끗하게 삭제
