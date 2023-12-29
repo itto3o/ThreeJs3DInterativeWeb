@@ -502,3 +502,119 @@ cannonWorld.removeBody(item.cannonBody);
 item.cannonBody.removeEventListener('collide', collide);로 제거해주면 됨
 
 --> 깨끗하게 삭제
+
+
+---------------------------
+도미노 만들기 - glb 배치
+
+ex07.js
+
+이번에는 도미노만들기
+--> MySphere같은건 필요업속, allowSleep은 주석
+
+바닥에 도미노 세우기, spheres는 없애기
+
+draw함수에 cannonBody 따라가게하는부분 없애기,
+collide함수 필요없고
+
+click 이벤트 등록 내부 내용도 없애기
+
+floorMesh 세팅 밑에 도미노 생성
+외부 모듈로 만들어서 import 해올것임
+
+클래스를 만들기전에 생성자로 먼저 호출 코드를 먼저 쓰는 이유는 클래스에 어떤 항목이필요한지 알 수있음
+
+const dominos = [];
+let domino;
+for문으로 도미노 20개 만들기
+for (i = 0; i < 20; i++)
+domino = new Domino();
+dominos.push(domino);
+
+생성자 안에
+scene에 mesh를 add해야하니까
+scene: scene, (== scene)
+cannonWorld,
+ 도미노를 일렬로 쭉 세울건데, 그러면 z위치만 바꾸면 되니까, i를이용해서 세팅
+z: -i * 0.8
+--> z 좌표 자체가 0.8 간격으로 도미노가 세워질 것임
+
++방향만이 아니라 -방향으로 붙여서하기 (안쪾으로 세우기)
+
+새 파일을 열어서
+패키지들 import
+
+import { Mesh, BoxGeometry, MeshBasicMaterial} from 'three'
+import { Body, Box, Vec3 } from 'cannon-es'
+
+지난 섹션에 블렌더로 도미노를 만들었는데,
+glb파일을 로드해오려면 gltfLoader 필요
+import {GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
+export class Domino {
+ constructor(info) {
+	this.scene = info.scene;
+	this.cannonWorld = info.cannonWorld;
+
+	this.width = 0.6(glb파일로 블렌더에서 폭을 0.6, 높이 1, 두께를 0.2로 했었는데 그대로)
+	this.height = 1;
+	this.depth = info.depth || 0.2;
+
+
+도미노를 처음에 만들때(호출할때) 사이즈를 직접 지정해도 좋을테니까
+만약 그렇게 만들고 싶다면
+바로 숫자를 넣는게아니라 info.width || 0.6; 이런식으로 하면 width값이 있으면 그 값, 없으면 0.6을 넣어줄 수 있음
+
+
+x, y는 고정이라 가운데 정렬이 될 것임,
+y는 0이면 안됨, 왜냐면 mesh의 중심이 0이 되어버리면 mesh가 바닥에 묻힌 것처럼 보이기 때문
+--> 높이의 절반만큼 y가 올라와줘야함 --> 0.5
+
+x, y, z도 기본값을 세팅할 수 있도록
+this.x = info.x || 0;
+this.y = info.y || 0.5;
+this.z = info.z || 0;
+
+크기 세팅, 좌표 세팅 완료
+이후 rotationY도 세팅해줄 것
+Y축 회전값을 세팅해놓으려고 함, --> 도미노를 똑바로 둘 수도 있지만 돌려서 놓을 수도 있기 때문
+
+this.rotationY = info.ratationY || 0;
+
+mesh는 box가 아니라 glb파일을 쓰기로했으니까 loader를 생성해서 load해오기
+--> loader를 domino.js에서 iimport해왓었는데, 그렇게 하지 않고 main에서 불러오도록 하기
+도미노를 하나만 생성해서 하는거면 상관없겠지만, 도미노를 여러개 만들건데 domino.js에서 load해오면 도미노 하나당 loader도 하나씩 배치돼서
+계속 만드는거니까 비효율적임,
+
+--> 그래서 material을 만들었떤 것 처럼 하나의 material로 여러개의 도미노를 찍어내게끔 main에서 불러오기
+
+controls아래에
+Loader
+const gltfLoader = new GLTFLoader();
+해주고 도미노 생성할때 gltfLoader도 넣어주기
+
+console에 출력해보니까 Domino.js에도 잘 넘어왔음
+--> gltfLoader로 load
+
+glb파일을 가져와야하는데 지금 없어서
+models파일을 만들고 domino.glb 카피해오기,
+models파일을 만들었으니까 webpack.config.js에서 plugIn models 파일 주석처리 풀기
+이후 npmstart 다시
+
+load('models/domino.glb', glb => { console.log(glb.scene.children[0]) }
+scene에 children의 0번원소의 mesh가 필요함,
+
+--> this.modelMesh = glb.scene.children[0];
+this.modelMesh.castShadow = true; // 로 그림자 만들기
+this.scene.add(this.modelMesh);
+
+
+--> 생성이 됐는데, 도미노가 너무 멀리까지 가있어서 보기가 이상함
+--> 바닥 사이즈를 늘려주기
+floorMesh floorGeometry(100, 100);
+
+도미노 생성에서, for문에 i를 0에서 20으로했는데,
+이걸-3~17 로 해줌 --> 약간 뒤에 있는 것 같아서
+
+
+--> 이후 cannonJs 적용
