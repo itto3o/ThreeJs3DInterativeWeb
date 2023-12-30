@@ -618,3 +618,50 @@ floorMesh floorGeometry(100, 100);
 
 
 --> 이후 cannonJs 적용
+
+
+
+-------------------
+도미노만들기 2 - 물리엔진 적용
+
+cannonjs하기
+
+setCannonBody();를 추가해주고
+glb파일이 로드된 후에 얘를 호출
+
+shape를 먼저 만들어야함,
+
+shape = new Box(new Vec3(this.width/2, this.height/2, this.depth);
+이 안에 크기를 넣어주면 되는데, width, depth, height의 절반크기를 하는 것(node.js에서는 지름이라면 여기서는 반지름을 넣어줘야하는 식)
+
+this.cannonBody = new Body({
+mass : 1,
+position: new Vec3(this.x, this.y, this.z);
+shape // shape:shape
+)
+
+this.cannonBody.quaternion.setFromAxisAngle(new Vec3(0, 1, 0), this.rotationY)
+ratationY도 넣어줬었는데 얘도 cannonBody도 회전시켜주게끔, y축이니까 0, 1, 0 / 각도
+
+만든 cannonBody를
+this.cannonWorld.addBody(this.cannonBody);
+
+이후에 해줄 것은
+도미노 메쉬들이 cannonBody의 위치와 회전을 따라가게 해줘야
+--> draw함수에서,
+dominos에서 forEach(item => {
+item.modelMesh.position.copy(item.cannonBody.position);
+item.modelMesh.quaternion.copy(item.cannonBody.quaternion);
+
+해줬떠니 에러가 남,
+modelMesh가 세팅되는 시점이 외부 glb파일의 로드가 끝난 다음에 실행되기 때문에,
+그래서 시간이 걸리는 건데, 그래서 modelMesh가 존재할때만 해주는 걸로?
+cannonBody가 실행돼서 cannonBody까지 있어야 하니까 조건으로 cannonBody가 존재할때만
+
+if(item.cannonBody) {
+ 	// 여기에 내용
+
+}
+
+위치가 차이가 없는데, 공중에 띄워서 생성해보기
+y: 2정도로 하면 적용이 된 모습을 볼 수 있고, 얘를 다시 없애주기

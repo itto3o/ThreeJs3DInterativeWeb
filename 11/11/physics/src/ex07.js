@@ -108,6 +108,7 @@ export default function example() {
             scene,
             cannonWorld,
             gltfLoader,
+			y: 2,
             z: -i * 0.8
         });
         dominos.push(domino);
@@ -134,6 +135,13 @@ export default function example() {
         //     item.mesh.position.copy(item.cannonBody.position);
         //     item.mesh.quaternion.copy(item.cannonBody.quaternion);
         // });
+
+		dominos.forEach(item => {
+			if(item.cannonBody) {
+				item.modelMesh.position.copy(item.cannonBody.position);
+				item.modelMesh.quaternion.copy(item.cannonBody.quaternion);
+			}
+		})
 
 		renderer.render(scene, camera);
 		renderer.setAnimationLoop(draw);
