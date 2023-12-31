@@ -15,6 +15,8 @@ export class Domino {
         this.scene = info.scene;
         this.cannonWorld = info.cannonWorld;
 
+        this.index = info.index;
+
         this.width = info.width || 0.6;
         this.height = info.height || 1;
         this.depth = info.depth || 0.2;
@@ -29,6 +31,7 @@ export class Domino {
             '/models/domino.glb',
             glb => {
                 this.modelMesh = glb.scene.children[0];
+                this.modelMesh.name = `${this.index}번 도미노`;
                 this.modelMesh.castShadow = true;
                 this.modelMesh.position.set(this.x, this.y, this.z);
                 this.scene.add(this.modelMesh);

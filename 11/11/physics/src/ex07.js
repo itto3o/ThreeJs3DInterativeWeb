@@ -103,12 +103,13 @@ export default function example() {
     // 도미노 생성
     const dominos = [];
     let domino;
-    for (let i = -1; i < 17; i++) {
+    for (let i = -3; i < 17; i++) {
         domino = new Domino({
+			index: i,
             scene,
             cannonWorld,
             gltfLoader,
-			y: 2,
+			// y: 2,
             z: -i * 0.8
         });
         dominos.push(domino);
@@ -165,9 +166,21 @@ export default function example() {
     //     }
     // }
 
+
+	// Raycaster
+	const raycaster = new THREE.Raycaster();
+	const mouse = new THREE.Vector2();
+
+	function checkIntersects() {
+		raycaster.setFromCamera(mouse, camera);
+
+		const intersects = raycaster.intersectObjects(scene.children);
+		console.log(intersects[0].object.name);
+	}
+
 	// 이벤트
 	window.addEventListener('resize', setSize);
-    canvas.addEventListener('click', () => {
+    canvas.addEventListener('click', e => {
         // const mySphere = new MySphere({
         //     // scene: scene,
         //     scene,
@@ -183,6 +196,11 @@ export default function example() {
         // spheres.push(mySphere);
 
         // mySphere.cannonBody.addEventListener('collide', collide);
+		
+		mouse.x = e.clientX / canvas.clientWidth * 2 - 1;
+		mouse.y = -(e.clientY / canvas.clientHeight * 2 - 1);
+
+		checkIntersects();
     });
     
     const preventDragClick = new PreventDragClick(canvas);
