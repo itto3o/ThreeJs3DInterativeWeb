@@ -1,0 +1,34 @@
+기본 지오메트리 파티클
+
+파티클은 사전에서는 아주 작은 입자, three.js를 이용해서 별, 작은 입자들을 랜덤하게 뿌려주고, 흩어지게 할때 파티클을 사용함
+
+그냥 mesh들과 다르게 효과를 얻을 수 있음
+
+readme.txt  패키지 설치
+
+서버를 구동하면 sphere mesh 하나가 있음
+
+처음에는 기본 geometry형태에서 파티클 사용하기
+meterial에서 wireframe : true로 하면 뼈대만 보이는데,
+segment를 1, 32, 32로 해놔서 32로 쪼개진 것
+확대 해보면 교차되는 점들이 있고, 이 형태에서 파티클을 사용한다는 것은 vertex마다 하나하나 파티클을 놓는다는 뜻
+그냥 구 형태가 아니라 작은 입자들로 구성된 구처럼 보이게 됨
+
+three.js에서 기본 제공 geometry를 만들어보기
+material을 파티클을 사용할 수 있는 material로 바꿔주기, material = new THREE.PointsMaterial();
+하면 그냥 하얘짐, mesh도 만들어줘야함
+
+파티클은 일반 mesh가 아니라 다른 걸로 만들어줘야 함
+points = new THREE.Points(geometry, material);
+
+로 하면 점들이 모아져있는 느낌이 듦, 줌인하면 점들이 살아있음
+크기가 너무 커서 좀 그런데
+material에 size: 0.02로 해주면 파티클처럼 됨
+
+가까이있는 쪽의 point는 크게보이고, 멀리있는 points들은 작게보여서 입체감이 드는데,
+이 점들을 균일한 크기로 할 수도 있음
+sizeAttenuation: false;로 하면
+원근에 상관없이 균일한 ㅋ기로 할 수 있음
+이런 속성은 material을 만들때 세팅해줘도 되고, 만들고 나서 넣어줘도됨
+material.size = 0.02와 같이
+Box로 해도 되고
