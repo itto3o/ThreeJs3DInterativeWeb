@@ -32,3 +32,52 @@ sizeAttenuation: false;로 하면
 이런 속성은 material을 만들때 세팅해줘도 되고, 만들고 나서 넣어줘도됨
 material.size = 0.02와 같이
 Box로 해도 되고
+
+
+-------------------------
+랜덤 파티클
+
+ex02.js
+
+랜덤한 위치에 파티클을 흩뿌려주는 파티클
+
+아까전에는 정해진 형태로 파티클을 뿌릴거라 원하는 형태의 geometry를 사용했는데, 이번에ㅡㄴ 필요하긴 한데 형태가 정해져있지 않음
+--> BufferGeometry()를 사용
+가진 형태가 있는게 아니라 먼저 geometry를 만들고 vertex를 우리가 만들어줌
+인자는 아무것도 없음
+
+파티클 개수는 count = 1000;
+bufferGeometry에 적용할 point들의 위치를 설정해주기
+Float32Array를 사용해서 position배열을 만들어주기
+
+const positions = new Float32Array(count * 3); 길이는 count의 3배
+x, y, z가 순서대로 들어가기 때문에 count 하나당 x, y, z가 필요함
+
+랜덤값으로 쭉 채워보기
+for (let i = 0; i < positions.length; i++)
+positinos[i] = Math.random();
+
+그냥 random()은 0~1사이 값인데, 그냥 하면 분포가 좀 작을테니까
+-5~5 사이 값으로 하기 위해
+-0.5를 빼면 -0.5~0.5사이가 되고 여기에 *10을 하면 -5 ~ 5가 됨
+
+이렇게 positions을 만들고 geometry의 attribute의 position속성으로 등록해줘야 함
+geometry.setAttribute('position', 배열을 바로 넣지 않고 새로운 객체를 넣어서 등록함
+new THREE.BufferAttribute(positinos, 3)
+'position'의 속성에 접근하는것
+
+x, y, z점하나당 값을 3개를 쓸거니까 positinos배열을 이용해서 값을 3개를 쓰겠다는 의미
+
+material을 만들어주기
+points Material을 만들면 됨
+new THREE.PointsMaterial(size: 0.03, color: 'plum');
+
+mesh에 해당하는 points만들기
+particles = new THREE.Points(geometry, material);
+scene.add(particles);
+
+로 하면
+이제 우주공간처럼 느껴짐
+줌아웃을 해보면 -5~5사이라서 직육면체처럼 보이게 됨
+count도 10만개로 해도 괜찮은데, 하나도 안 버벅거림
+gpu를 쓰기때문에 성능이 좋음
