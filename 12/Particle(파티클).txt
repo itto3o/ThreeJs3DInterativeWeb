@@ -81,3 +81,38 @@ scene.add(particles);
 줌아웃을 해보면 -5~5사이라서 직육면체처럼 보이게 됨
 count도 10만개로 해도 괜찮은데, 하나도 안 버벅거림
 gpu를 쓰기때문에 성능이 좋음
+
+
+-----------------------------
+파티클 이미지
+
+ex03.js
+
+파티클에 이미지를 사용하기
+이미지를 사용해야하니까 load사용,
+textureLoader를 사용
+
+const textureLoader = new THREE.TExtureLoader();
+textureLoader.laode(');
+
+images폴더에 start.png를 사용
+'/images/star.png')
+--> 이후 웹팩을 config파일에서 바꿔주기
+꼭 이렇게 해야하는건 아니라 '우리의' webpack 세팅에서는 이렇게 해야함
+
+서버를 종료했다가 다시 구동
+load한 후에 사용하기
+const particleTexture = 에 load
+
+material에서 map으로
+map: particleTexutre
+size를 0.3으로
+
+별 이미지가 잘 들어갔는데 이미지가 투명하지 않음
+--> 투명하게 만들어주는 세팅을 하면 됨
+transparent: true,
+alphaMap: particleTexture,
+depthWrite: false;
+로 하면 파티클 배경이 투명해짐
+
+texture이미지를 로드해와서 map으로 설정해주기
