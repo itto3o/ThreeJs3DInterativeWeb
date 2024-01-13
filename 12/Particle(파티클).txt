@@ -116,3 +116,29 @@ depthWrite: false;
 로 하면 파티클 배경이 투명해짐
 
 texture이미지를 로드해와서 map으로 설정해주기
+
+
+
+-----------------------------
+여러가지 색상의 파티클
+
+ex04.js
+여러가지 색의 파티클
+
+색 자체를 세팅할 수 있음
+material에서 color: 'lime'으로 넣엊루 수 있음
+각 파티클마다 랜덤으로 색상을 알록달록하게 넣기
+
+geometry.setAttribute('position'을 속성을 추가해주고 있었는데,
+여기에 color setAttribute를 해줄 수 있음
+여기에 color를 추가,
+geometry.setAttribute('color', new THREE.BUfferAttribute(colors, 3);
+
+colors 배열을만들기
+colors = new Float32Array(count * 3);
+colors[i] = Math.random();
+
+컬러 값을 그냥 random값, 0~1사이의 값으로 넣어주면 알아서 랜덤하게 세팅이 됨
+vertexColors: true
+로 하면 알록달록하게 가능
+
