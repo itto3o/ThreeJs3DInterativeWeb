@@ -142,3 +142,44 @@ colors[i] = Math.random();
 vertexColors: true
 로 하면 알록달록하게 가능
 
+
+
+
+-----------------------------------------------------
+포인트 좌표에 메쉬 생성하기
+
+ex05.js : Point 좌표에 Mesh 생성하기
+geometry에 생성되는 point들의 좌표에 다른 mesh를 생성하기
+
+point설정에 대한건 모듀 지우고,
+sphere geometry를 만들어서 그 안에 있는 position attribute들의 vertex를 이용해서 각 좌표에 plane mesh를 생성하는 걸로
+
+sphereGeometry(1, 8, 8);
+각 정점의 좌표값들을 이용해서 이 자리에 plane mesh를 만들기
+
+const positinoArray = sphereGeometry.attributes.positino.array;
+
+이 포지션에 조립할 planeMesh 만들기
+planeMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.3), new tHREe.MeshBasicMaterial({color:'red', side: THREE.DoubleSide})
+doubleside로 하면 양면이 다 보임
+
+여러개의 plane Mesh 생성
+for(let i = 0; i < positinoARray.length; i+=3)
+
+3개당 점 하나니까, i를 3개씩 증가
+plane = planeMesh.clone();
+plane.position.x = positionArray[i];
+plane.position.y = positionArray[i+1];
+z = i+2;
+
+scene.add(plane);
+--> mesh가 sphere형태로 세팅이 잘됨
+부자연스러워보이는게, 모두 정면만 바로보고 있음
+--> plane이 실제 구 표면에 맞춰서 기울어지게 하면 좋을듯?
+
+카메라가 어떤 지점을 바라보게 할때 lookat을 사용했었음,
+mesh도 가능(object 3d를 상속받았기 때문)
+plane.lookAt(0, 0, 0); (가운데 바라보게끔)
+
+점이 아니라 planemesh니까 각각 다른 texture도 입힐 수 있음
+다음 시간에는 갤러리처럼 만들기
