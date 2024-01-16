@@ -183,3 +183,37 @@ plane.lookAt(0, 0, 0); (가운데 바라보게끔)
 
 점이 아니라 planemesh니까 각각 다른 texture도 입힐 수 있음
 다음 시간에는 갤러리처럼 만들기
+
+
+-------------------------------------
+형태가 바뀌는 이미지 패널 만들기 1
+
+ex06.js
+
+주제 : 형태가 바뀌는 이미지 패널
+
+현재 우리가 빨간 plane mesh를 position에 위치하는 중인데,
+이 plane에 각각 사진을 넣고, 버튼 클릭하면 랜덤으로 촥 퍼졌다가, 다시 누르면 다시 구 모양으로 모이는 효과를 만들기
+
+단순한 plane mesh를 모듈로 빼서 이미지 파일로 바꾸기
+ImagePanel.js 
+
+여러개의 plane mesh 생성하는 부분을 바꾸기
+imagepanel instance를 생성하는 형태로
+
+Imagepanel({
+외부 이미지를 load해서 texture로만든다음에 적용해주려면
+image panel자체가 texture loder를 쓸수있어야함
+--> textureLoader를 만들어서 인자로 넣어주기
+
+scene에다가 mesh를 해야하니까 scene도 필요,
+material을 이미지 패널 안에서 특정 이미지가 매핑된 material을 쓸 것이라 필요 없고,
+planeGeometry = new THREE.PlaenGeometry(0.3, 0.3);
+image를 로드한댔으니까 imageSrc: images 폴더 안에 01, 02, 03 들을 사용할 것
+데이터베이스에서 불러온 이미지를 뿌려준다던지로 바꿔도 됨
+얘네는 랜덤으로 선택하게 할 것
+
+imageSrc: `/images/0${Math.ceil(Math.random() * 5)}.jpg`
+ceil로 올림연산을 하면 0~5가 나오게 됨(소수점 올림이 아니기 때문에)
+위치 지정을 해줘야
+planeMesh를 scene에 조립해야하니까 위치값은 positionArray에 x: positionArray[i] 이런 식으로
