@@ -217,3 +217,33 @@ imageSrc: `/images/0${Math.ceil(Math.random() * 5)}.jpg`
 ceil로 올림연산을 하면 0~5가 나오게 됨(소수점 올림이 아니기 때문에)
 위치 지정을 해줘야
 planeMesh를 scene에 조립해야하니까 위치값은 positionArray에 x: positionArray[i] 이런 식으로
+
+
+
+-----------------------------
+형태가 바뀌는 이미지 패널 만들기 2
+
+ImagePanel.js에서
+export class ImagePanel {
+
+생성자에서
+constructor(info) {
+const texture = info.textureLoader.load(info.imageSrc);
+
+이 texture로 material
+const material = new MeshBasicMaterial({
+map: texture,
+side : DoubleSide, : 양쪽면이 다 보이게
+
+this.mesh = new MEsh(info.geometry, material)
+const mesh가 아니라 this.mesh로 한 이유는 외부에서 사용할 예정이기 때문
+this.mesh.position.set(info.x, info.y, info.z);
+mesh가 바라보게,
+this.mesh.lookAt(0, 0, 0);
+(구 중심이 0, 0, 0에 있으니까 거기를 바라보면 원형이 되는거네 신깅..
+
+info.scene.add(this.mesh);
+
+--> 랜덤하게 다섯장의 이미지를 선택해서 생성되고 있음
+doubleside로 해주니까 양면이 다 보임
+
