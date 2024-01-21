@@ -247,3 +247,56 @@ info.scene.add(this.mesh);
 --> 랜덤하게 다섯장의 이미지를 선택해서 생성되고 있음
 doubleside로 해주니까 양면이 다 보임
 
+
+
+------------------------------------
+형태가 바뀌는 이미지 패널 만들기 3
+
+
+이제 이걸 버튼을 누르면 랜덤으로 퍼졌다가 버튼을 누르면 다시 모이도록
+
+버튼을 배치하기(두개)
+index.html에 공통을 쓰니까 버튼도 js로 만들기
+const randomBtn = document.createElement('button);
+randomBtn.dataset.type = 'random';
+이렇게 해두면 나중에 데이터셋 객체에 버튼에 data-type = 'random'이 됨
+document.body.append(randomBtn);
+
+--> 이렇게 하니까 element에 추가가 되는데 canvas에 버튼이 가려져서
+randomBtn.style.cssText = 'position: absolute; left: 20px; top: 20px';
+
+sphereBtn도 만들어주기
+top위치를 50으로
+
+dataset 타입을 체크해서 좌표설정
+
+이벤트 바인딩
+두 버튼의 부모 요소를 만들어서 이벤트를 위임으로처리해주기
+btnWrapper = documnet.createElement('div');
+
+이후 document.body.append(randomBtn); 이렇게 하는게 아니라
+btnWrapper.append(randomBtn); 이런 식으로 고쳐주기
+--> document.body.append(btnWrapper);
+
+classList로 class 설정
+
+얘한테 클릭 이벤트를 바인딩
+btnWrapper.addEventListener('click', setShape);
+
+setShape 함수 만들기
+이벤트 핸들러로 실행될거니까 매개변수가 e가 들어옴
+두개의 버튼에 각각 클릭 이벤트를 바인딩 한게 아니라서 이벤트 객체에 타겟을 조사를 해야
+console.log(e.target);
+이 target의 data-type에 따라 다른 행동 하기
+e.target.dataset.type 으로 접근
+
+sphere를 눌렀을때 배치가 다시 되려면 positionArray를 만들어뒀던거 사용하면되는데
+랜덤 포지션 배열은 따로 만들어야
+ctrl shift L 로 spherePositionArray로 다 바꾸기
+randomPositionArray만들기
+
+랜덤 위치를 -5~5로 설정
+for문으로 let i = 0; i < spherePositionArray.length; i++)
+randomPositionArray.push(Math.random() - 0.5) * 10);
+
+--> 각각 위치로 패널들이 날라가게 하면 됨
