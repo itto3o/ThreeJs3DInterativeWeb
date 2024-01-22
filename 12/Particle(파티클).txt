@@ -300,3 +300,58 @@ for문으로 let i = 0; i < spherePositionArray.length; i++)
 randomPositionArray.push(Math.random() - 0.5) * 10);
 
 --> 각각 위치로 패널들이 날라가게 하면 됨
+
+
+
+---------------------------------
+형태가 바뀌는 이미지 패널 만들기 4
+
+클릭했을때 각각 위치로 패널들이 날라가게
+
+애니메이션에 gsap, 사용
+외부 패키지니까 pakage install 해줘야함
+
+npm i gsap
+import gsap from 'gsap'
+
+setShape에서 처리
+
+얘네를 선택하게
+array = randomPositionArray;
+array = spherePositionArray;
+
+array를 애니메이션 하는 데에 사용
+
+각각의 패널들을 움직여줘야함,
+패널들을 배열에 담아서 일괄 관리를 해줘야한다는 뜻,
+imagePanel을 생성할때 배열에도 넣게
+
+for(let i = 0; i < imagePanels.length; i++)
+gsap.to(imagePanels[i]].mesh.position, {duration : 2, x: array[i*3], y:array[i*3 + 1], z: array[i * 3 +2], }
+어떤 오브젝트, 오브젝트 세팅(기간, 도착할 위치,
+
+여기서 왜 *3을 하는지 : imagePanels는 패널의 개수만큼 들어와있는데, position은 3차원이고, array들은 이미지 패널 하나당 값이 3개씩 있음]]
+
+약간 맘에 안드는건,
+지멋대로 각도로 중구난방이라 
+원래도 lookAt으로 모두 구 중심을 바라보고 있으니까 패널들이 모두 각자 각도가 달랐음,
+--> random일때는 세워지게 되게
+
+그러면 random을 눌렀을땐 position으로 날라가면서 rotation도 바꾸고, sphere를 누를때도 lookat도 해줘야함
+--> 초기 상태의 각 패널의 각도를 저장해놔야 원래대로 할때 조정이 됨
+각 패널들의 기본 각도를 미리 속성으로 세팅해두기
+--> imagePanel클래스 안에서
+this.sphereRotationX = this.mesh.rotation.x;
+lookAt을 한 뒤의 rotation 값을 저장, x y z 모두 해주기
+
+
+회전은 랜덤일때, sphere일때 다르게 해줘야
+랜덤일때는 0 0 0, sphere일때ㅡㄴ 저장해둔 값으로
+
+gsap.to(imagePanels[i].mesh.rotation,
+x: 0, y:0, z:0
+
+type 상수를 만들기
+else if(type === 'sphere'
+
+다른 모양도 괜찮을듯

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { ImagePanel } from './ImagePanel';
+import gsap from 'gsap';
 
 // ----- 주제: 형태가 바뀌는 이미지 패널
 
@@ -62,6 +63,7 @@ export default function example() {
 	}
 
     // 여러개의 Plane Mesh 생성
+	const imagePanels = [];
     let imagePanel;
     for(let i = 0; i < spherePositionArray.length; i += 3) {
         imagePanel = new ImagePanel({
@@ -73,6 +75,8 @@ export default function example() {
             y: spherePositionArray[i + 1],
             z: spherePositionArray[i + 2]
         });
+
+		imagePanels.push(imagePanel);
     }
     
     // let plane;
@@ -107,13 +111,53 @@ export default function example() {
 	}
 
 	function setShape(e) {
-		switch (e.target.dataset.type) {
+		const type = e.target.dataset.type;
+		let array;
+		switch (type) {
 			case 'random':
-				console.log('random');
+				// console.log('random');
+				array = randomPositionArray;
 				break;
 			case 'sphere':
-				console.log('sphere');
+				array = spherePositionArray;
+				// console.log('sphere');
 				break;
+		}
+
+		for (let i = 0; i < imagePanels.length; i++) {
+			// 위치 이동동
+			gsap.to(
+				imagePanels[i].mesh.position,
+				{
+					duration: 2,
+					x: array[i * 3],
+					y: array[i * 3 + 1],
+					z: array[i * 3 + 2]
+				}
+			);
+
+			// 회전
+			if(type === 'random') {
+				gsap.to(
+					imagePanels[i].mesh.rotation,
+					{
+						duration: 2,
+						x: 0,
+						y: 0,
+						z: 0
+					}
+				);
+			} else if (type === 'sphere') {
+				gsap.to(
+					imagePanels[i].mesh.rotation,
+					{
+						duration: 2,
+						x: imagePanels[i].sphereRotationX,
+						y: imagePanels[i].sphereRotationY,
+						z: imagePanels[i].sphereRotationZ
+					}
+				);
+			}
 		}
 	}
 
