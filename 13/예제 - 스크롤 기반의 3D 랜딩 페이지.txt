@@ -7,3 +7,94 @@
 스크롤 랜딩 페이지에 응용 가능
 
 카메라가 이동하는 느낌
+
+
+----------------------------
+readme에 있는 패키지 설치,
+
+이번에는 01.js가 없고 main.js가 있음
+페이지 예제를 하나 완성하기 때문
+
+
+models 안에 house.glb
+얘를 사용하려면 webpack config에서 설정
+
+Mesh부분을 없애기
+이번에는 spotLight를 사용,
+spotLight = new THREE.SpotLight('white', 0.7);
+set(0, 150, 100)
+그림자를ㅇ ㅟ해 castShadow=true;
+
+shadow.mapSize.width = 1024
+그림자 퀄리티 조정, 기본값은 512인데 두배로
+height = 1024
+near far도 설정, 이 사이에서 shadow가 생성
+near = 1, far = 200
+이후 scene.add
+
+바닥 Mesh 넣어주기
+집이 올라갔을때 빛을 받아서 그림자를 만들어줘야
+const floorMesh = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshStandardMaterial('white',);
+floorMesh.rotation.x = -Math.PI / 2;
+
+예제에서는 배경도 하얗게 했의까 scene.background = new THREE.Color('white');
+
+빛 강도에 따라서 보이고 말고 가능
+0.7로 맞춘 이유는 안보이게 하려고
+희미하려면 0.6
+
+html contents를 scroll 되면ㅅ ㅓ올라가야
+scroll되는 길이의 콘텐츠를 넣어줘야
+
+html에 넣어주기
+.scetions 라는 div를 넣고,
+section.section class
+
+. section tab 누르면 기본으로 태그가 만들어짐
+section.ddd tab 누르면 ddd라는 이름의 클래스인 section이 만들어짐
+<h2>01<h2>로 타이틀 넣고 복붙
+섹션 5개 넣어두기
+
+css 잡아주기
+새로고침할때 잠깐 보이게 되는데, 이 이유는 three-canvas가 position : absolute로 되어이쓴데 position이 static인 일반 내용보다 덮어써져있어서 안보이는것
+일반 콘텐츠는 static인데, absolute와 fixes는 모두 static 위로 올라올 수 밖에 없음
+--> ralative로 해줌
+일반 포지션 스태틱처럼 자리를 차지하면서 z인덱스를 줘서 위로 올라올 수 있게 할 수 있음
+
+sections 그룹을 posiitno relative로 해주기
+
+z인덱스를 세팅을 안했지만 canvas보다 이후에 써줘서 올라온 것
+z-index: 1;로 해주기
+
+각 섹션의 숫자 높이가 browser 높이만큼 차지해야함
+그래야 01 02 03이 올라오면서 스크롤이 될 것
+css에서 .section { height: 100vh;} 로 하면 view port height , 즉 브라우저 높이가 됨
+티나게 border-top: 2px olid red;
+섹션 위에 빨간줄이 있어서 섹션 구분이 됨
+
+.section h2 {
+font-size : 7vmin; vmin : view port minimum - 미니멈이니까 가로 세로 사이즈 중에 작은 애 꺼
+높이가 더 작다면 높이를 100으로 치고 중에서 7을 세팅한 것
+스마트폰, 데탑에서 적절히 보이게 하려고 유연하게 대응 가능
+
+margin: 0
+padding: 5rem; rem 은 html에 책정된 font size가 1rem이고 거기에 *5;
+폰트사이즈를 따로 변경안했으니까 기본값 16px정도
+
+
+숫자가 다 왼쪽에 있는데 지그재그로 바꾸기
+
+홀수번째꺼만 오른쪾으로
+.section:nth-child(odd) // 짝수는 even
+text-align: right;
+
+--> 섹션 하나의 높이가 너무 길어졌음(스크롤만큼의 크기가 아니게 됨)
+padding때문에 그래서 box size 속성을 border로 해서 패딩 보더까지는 width height크기에 포함되게 해주면 됨
+box-sizing : border-box;로 해줌
+border-box가 요즘엔 계산하기편해서 이걸로 하는 경우가 많음
+
+
+배경 희색처리를 주석해놓고,
+스크롤하면 올라가버려(배경이 올라간단 뜻)
+--> 무대가 계속 눈에 보여야함
+position이 absolute라서 ㄱ렇고, 고정하기 위해서 fixed로 고쳐야함

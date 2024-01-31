@@ -13,6 +13,7 @@ renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
 // Scene
 const scene = new THREE.Scene();
+scene.background = new THREE.Color('white');
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
@@ -29,18 +30,35 @@ scene.add(camera);
 const ambientLight = new THREE.AmbientLight('white', 0.5);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight('white', 1);
-directionalLight.position.x = 1;
-directionalLight.position.z = 2;
-scene.add(directionalLight);
+// const directionalLight = new THREE.DirectionalLight('white', 1);
+// directionalLight.position.x = 1;
+// directionalLight.position.z = 2;
+// scene.add(directionalLight);
+
+const spotLight = new THREE.SpotLight('white', 0.7);
+spotLight.position.set(0, 150, 100);
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 200;
+scene.add(spotLight);
 
 // Mesh
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshStandardMaterial({
-	color: 'seagreen'
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+const floorMesh = new THREE.Mesh(
+	new THREE.PlaneGeometry(100, 100),
+	new THREE.MeshStandardMaterial({ color: 'white' })
+);
+floorMesh.rotation.x = -Math.PI / 2;
+scene.add(floorMesh);
+
+// // Mesh
+// const geometry = new THREE.BoxGeometry(1, 1, 1);
+// const material = new THREE.MeshStandardMaterial({
+// 	color: 'seagreen'
+// });
+// const mesh = new THREE.Mesh(geometry, material);
+// scene.add(mesh);
 
 // 그리기
 const clock = new THREE.Clock();
