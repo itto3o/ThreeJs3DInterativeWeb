@@ -98,3 +98,53 @@ border-box가 요즘엔 계산하기편해서 이걸로 하는 경우가 많음
 스크롤하면 올라가버려(배경이 올라간단 뜻)
 --> 무대가 계속 눈에 보여야함
 position이 absolute라서 ㄱ렇고, 고정하기 위해서 fixed로 고쳐야함
+
+
+-----------------------------------------
+스크롤 페이지 만들기 3 - House 클래스 만들기
+
+집은 따로 모듈로 만들어서 import로 만들기
+
+생성자 만들고,
+three.js import해오기
+스크롤을 하면서 해당 집을 제어해야하기 때문에 집들을 배열에 넣어두기
+일단 1개만,
+new House({
+	x 위치, z위치,(앞쪽, 뒤쪽) y위치는 굳이 안해도 됨(모두 땅에 붙어있으니까)
+	modelSrc: '/models/house.glb' //집 모양이 다 다를수도 있음(다른 glb파일을 로드해서 쓸 확률이 있음) --> glb파일의 경로도 넣기
+	
+
+this. x = info.x;
+glb파일 로드해야함
+로드하려면 gltfLoader필요, 여기서 생성을 하면 인스턴스를 만들때마다 생성하기 때문에 loader는 1개로 돌려쓰면 되니까
+house 생성할때 포함하기
+넣는김에 house에서 mesh를 만들고 scene.add도 할거니까 scene도 인자로 넣기
+
+load에 파일경로 넣고, 함수로드되면 수행되는 함수
+scene에 children에 0번에 있음
+this.mesh = glb.scene.children[0]; 으로 포함
+이후 scene에 포함
+
+position이 y가 0이라 floor에 잠김
+y는 이 메쉬의 높이의 절반으로 하면 됨 
+외부파일을 불러다 쓴다는거는 높이가 다 달라질 수 있다는 뜻,
+--> glb파일의 height에 따라서 세팅이 되도록
+객체의 height도 미리 속성으로 세팅해두고 그것의 속성을 갖다 쓰자
+this.height = info.height || 2;
+
+모델 크기하고 다르게 잘못 넣으면 높이가 안맞을 수 있음
+
+그림자가 없어서 어색함,
+--> renderer.shadowmMap.enabled = true;
+
+mesh에서도 해줘야함
+바닥면에서,
+floorMesh.receiveShadow = true;
+houses의 mesh는 castShadow해줘야함
+
+그림자는 생겼는데 픽셀화가 되어있음
+--> 빛이 꽤 멀리 있어서 멀쩡하게 생겼는데, 그러면 배경이 흐려짐
+넓게 배치하기 어렵게됨
+--> 그림자그리는 타입을 조정해서 해결하면됨
+light 섹션에서 
+renderer.shadowMap.type = 성능도 괜찮고 부드러운, THREE.PCFSoftShadowMap; 기본값은 soft가 빠진 PCFShadowMap;
