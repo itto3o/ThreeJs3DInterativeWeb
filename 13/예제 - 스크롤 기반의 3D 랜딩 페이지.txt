@@ -148,3 +148,57 @@ houses의 mesh는 castShadow해줘야함
 --> 그림자그리는 타입을 조정해서 해결하면됨
 light 섹션에서 
 renderer.shadowMap.type = 성능도 괜찮고 부드러운, THREE.PCFSoftShadowMap; 기본값은 soft가 빠진 PCFShadowMap;
+
+
+
+---------------------------
+스크롤 페이지 만들기 4- 객체 배치하고 애니메이션 처리하기
+
+그럼 이제 집을 더 추가해서 배치하기
+
+위치를 조정해주기
+-5, 20
+7, 10
+-10, 0
+10 -10
+-5 -20
+
+카메라 위치도 조정해주기
+camera.position.set(-5, 2, 25); 로 하면 첫번째 집이 가운데에 보이고
+-5 20 25로 한 이유는 첫번째 집과 똑같이 해준 것
+
+이제 할일이 스크롤되면 스크롤된 구간에 따라서 카메라 이동
+
+스크롤이 발생했을때 계산해서 처리
+--> 스크롤 이벤트 바인딩
+
+'scroll', setSection
+
+스크롤하다가 새 섹션에 진입했따면 바꿔줘야하는데
+스크롤된 비율에 따라서 동작이 같이 따라가는 형식이어도 되는데,
+지금은 바뀌었을때 그 순간에만 어떤 집인지 알려주면 됨
+--> console.log(window.scrollY,)
+scrollY 는 pageYOffset이랑 똑같은데, 얘는 옛날 속성이라 요즘엔 scrollY를 사용함
+얼마나 스크롤했는지 pixel로 나타나는 값임
+
+얼마나 스크롤했는지 알았따면
+여기에 / window.innerHeight(브라우저 창 높이)
+이렇게 하면 비율이 나오는데 0부터 4까지 딱 떨어짐
+--> 1~5를 0~4로 인덱스 표현
+필요한건 정수니까 그냥 반올림 처리하면 됨
+Math.round()로
+
+let currentSection이라는 변수로 만들기
+카메라를 해당 인덱스로 gsap 사용해서 애니메이션
+--> npm i gsap 설치
+import 해오기
+
+to 메소드로 타겟 이미지 옮기기
+camera.position, {duration: 1(1초동안), x: houses[currentSection].x, z: houses[currentSection].z + 5 (ㅅㄹ짝 앞으로 빼주기)
+해당 인덱스 집의 위치로 카메라의 x y위치 houses.push 해놨으니까 houses에서 찾음
+
+setSection이 스크롤할때마다 계속 실행이 되니까
+section값이 바뀔때만 애니메이션 호출해주도록
+
+currentSection이랑 newSection이 다를때에만 애니메이션 실행
+
