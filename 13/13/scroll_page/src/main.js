@@ -29,7 +29,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 // camera.position.y = 1.5;
 // camera.position.z = 4;
-camera.position.set(-5, 20, 25);
+camera.position.set(-5, 2, 25);
 scene.add(camera);
 
 // Light
